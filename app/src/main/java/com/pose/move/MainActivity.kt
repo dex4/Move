@@ -29,6 +29,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MoveTheme {
-        OnboardingScreen()
+        OnboardingScreen {}
     }
 }

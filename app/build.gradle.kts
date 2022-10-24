@@ -67,4 +67,8 @@ dependencies {
 
     val navVersion = "2.5.2"
     implementation("androidx.navigation:navigation-compose:$navVersion")
+
+    val accompanistVersion = "0.26.5-rc"
+    implementation("com.google.accompanist:accompanist-pager:$accompanistVersion")
+    implementation("com.google.accompanist:accompanist-pager-indicators:$accompanistVersion")
 }

@@ -8,5 +8,7 @@
         <item name="postSplashScreenTheme">@style/Theme.Move</item>
     </style>
 
-    <style name="Theme.Move" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Move" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/violent_violet</item>
+    </style>
 </resources>

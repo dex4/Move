@@ -12,7 +12,7 @@ fun MoveMainNavHost(startDestination: String) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = startDestination) {
         composable(NavDestination.Onboarding.route) {
-            OnboardingScreen()
+            OnboardingScreen { navController.navigate("auth") }
         }
     }
 }
