@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="jagger">#3B1159</color>
+    <color name="violent_violet">#210B50</color>
+    <color name="pink">#E53062</color>
+    <color name="spanish_grey">#9D9D9D</color>
+    <color name="pale_pink">#F4BDCC</color>
+    <color name="winter_amethyst">#B2AAC2</color>
+    <color name="magnolia">#F4F2F6</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="splash_background">@color/jagger</color>
+</resources>
