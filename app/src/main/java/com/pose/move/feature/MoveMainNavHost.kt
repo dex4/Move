@@ -60,7 +60,28 @@ private fun NavGraphBuilder.addAuthenticationGraph(navController: NavController)
             deepLinks = listOf(navDeepLink { uriPattern = RESET_PASSWORD_URI_PATTERN })
         ) { backStackEntry ->
             val resetToken = backStackEntry.arguments?.getString("token") ?: ""
-            ResetPasswordScreen(resetToken)
+//            if (isUserAuthenticated) {
+//                navController.navigate(
+//                    NavDestination.Home.route,
+//                    NavOptions.Builder().setPopUpTo(AuthenticationDestination.ResetPassword.route, true).build()
+//                )
+//                return@composable
+//            }
+            ResetPasswordScreen(
+                resetToken,
+                onBackClick = {
+                    navController.navigate(
+                        NavDestination.Authentication.route,
+                        NavOptions.Builder().setPopUpTo(AuthenticationDestination.ResetPassword.route, true).build()
+                    )
+                },
+                onPasswordResetSuccess = {
+                    navController.navigate(
+                        AuthenticationDestination.LoginScreen.route,
+                        NavOptions.Builder().setPopUpTo(AuthenticationDestination.ResetPassword.route, true).build()
+                    )
+                }
+            )
         }
     }
 }

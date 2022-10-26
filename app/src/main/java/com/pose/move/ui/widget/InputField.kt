@@ -101,7 +101,7 @@ private fun InputFieldTrailingIcon(
         onClick = { onTrailIconClick?.invoke() },
     ) {
         Icon(
-            tint = MaterialTheme.colorScheme.onPrimary,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
             painter = painterResource(iconRes),
             contentDescription = "Input Trail Icon"
         )

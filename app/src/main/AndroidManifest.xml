@@ -15,10 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/MoveSplashScreen"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/MoveSplashScreen">
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/MoveSplashScreen"
+            tools:ignore="LockedOrientationActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
