@@ -11,8 +11,10 @@ import androidx.navigation.compose.rememberNavController
 import com.pose.move.feature.auth.forgotpassword.ForgotPasswordScreen
 import com.pose.move.feature.auth.login.LoginScreen
 import com.pose.move.feature.auth.register.RegisterScreen
+import com.pose.move.feature.home.availablescooters.AvailableScootersScreen
 import com.pose.move.feature.onboarding.OnboardingScreen
 import com.pose.move.navigation.AuthenticationDestination
+import com.pose.move.navigation.HomeDestination
 import com.pose.move.navigation.NavDestination
 
 @Composable
@@ -21,13 +23,17 @@ fun MoveMainNavHost(startDestination: String) {
     NavHost(navController = navController, startDestination = startDestination) {
         addOnboarding(navController)
         addAuthenticationGraph(navController)
+        addHome(navController)
     }
 }
 
 private fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
     navigation(AuthenticationDestination.RegisterScreen.route, NavDestination.Authentication.route) {
         composable(AuthenticationDestination.RegisterScreen.route) {
-            RegisterScreen { navController.navigate(AuthenticationDestination.LoginScreen.route) }
+            RegisterScreen(
+                onRegisterSuccess = { navController.navigate(HomeDestination.AvailableScootersScreen.route) },
+                onLoginClick = { navController.navigate(AuthenticationDestination.LoginScreen.route) }
+            )
         }
 
         composable(AuthenticationDestination.LoginScreen.route) {
@@ -47,6 +53,14 @@ private fun NavGraphBuilder.addOnboarding(navController: NavController) {
                 AuthenticationDestination.RegisterScreen.route,
                 NavOptions.Builder().setPopUpTo(NavDestination.Onboarding.route, true).build()
             )
+        }
+    }
+}
+
+private fun NavGraphBuilder.addHome(navController: NavController) {
+    navigation(HomeDestination.AvailableScootersScreen.route, NavDestination.Home.route) {
+        composable(HomeDestination.AvailableScootersScreen.route) {
+            AvailableScootersScreen()
         }
     }
 }

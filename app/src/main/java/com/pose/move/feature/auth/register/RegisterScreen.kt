@@ -24,13 +24,16 @@ import androidx.compose.ui.text.input.KeyboardType.Companion.Password
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.pose.move.R
+import com.pose.move.feature.auth.register.widget.LoginClickableSpan
+import com.pose.move.feature.auth.register.widget.UserAgreementClickableSpan
 import com.pose.move.ui.widget.InputField
 import com.pose.move.ui.widget.MaterialButton
 import com.pose.move.ui.widget.inputfield.TrailIconBehavior
 
 @Composable
 fun RegisterScreen(
-    onRegisterButtonClick: () -> Unit
+    onRegisterSuccess: () -> Unit,
+    onLoginClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -97,13 +100,15 @@ fun RegisterScreen(
             trailIconBehavior = TrailIconBehavior.PasswordToggle(R.drawable.ic_show_input, R.drawable.ic_hide_input),
             onTrailIconClick = { isPasswordShown = !isPasswordShown }
         )
+        UserAgreementClickableSpan()
         MaterialButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
             text = stringResource(R.string.register_start_button_text),
             enabled = isButtonEnabled,
-            onClick = onRegisterButtonClick
+            onClick = onRegisterSuccess
         )
+        LoginClickableSpan(onLoginClick)
     }
 }
