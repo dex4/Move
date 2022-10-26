@@ -109,6 +109,6 @@ fun RegisterScreen(
             enabled = isButtonEnabled,
             onClick = onRegisterSuccess
         )
-        LoginClickableSpan(onLoginClick)
+        LoginClickableSpan(Modifier.padding(top = 32.dp), onLoginClick)
     }
 }

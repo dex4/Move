@@ -37,7 +37,11 @@ private fun NavGraphBuilder.addAuthenticationGraph(navController: NavController)
         }
 
         composable(AuthenticationDestination.LoginScreen.route) {
-            LoginScreen()
+            LoginScreen(
+                onLoginSuccess = { navController.navigate(HomeDestination.AvailableScootersScreen.route) },
+                onCreateNewAccountClick = { navController.navigateUp() },
+                onForgotPasswordClick = { navController.navigate(AuthenticationDestination.ForgotPasswordScreen.route) },
+            )
         }
 
         composable(AuthenticationDestination.ForgotPasswordScreen.route) {

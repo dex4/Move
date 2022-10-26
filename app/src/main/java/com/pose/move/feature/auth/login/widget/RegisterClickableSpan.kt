@@ -1,4 +1,4 @@
-package com.pose.move.feature.auth.register.widget
+package com.pose.move.feature.auth.login.widget
 
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.MaterialTheme
@@ -13,29 +13,29 @@ import com.pose.move.R
 import com.pose.move.util.Constants
 
 @Composable
-fun LoginClickableSpan(
+fun RegisterClickableSpan(
     modifier: Modifier = Modifier,
-    onLoginClick: () -> Unit
+    onRegisterClick: () -> Unit
 ) {
-    val loginHereText = stringResource(R.string.register_login_here_label_text)
-    val alreadyRegisteredText = stringResource(R.string.register_existing_account_label_text_format, loginHereText)
-    val loginHereStartIndex = alreadyRegisteredText.indexOf(loginHereText)
-    val builder = AnnotatedString.Builder(alreadyRegisteredText)
+    val registerHereText = stringResource(R.string.login_new_account_label_text)
+    val newAccountText = stringResource(R.string.login_new_account_label_text_format, registerHereText)
+    val registerHereStartIndex = newAccountText.indexOf(registerHereText)
+    val builder = AnnotatedString.Builder(newAccountText)
     val spanStyle = SpanStyle(color = MaterialTheme.colorScheme.onPrimary, textDecoration = TextDecoration.Underline, fontWeight = FontWeight.SemiBold)
-    builder.addStyle(spanStyle, loginHereStartIndex, loginHereStartIndex + loginHereText.length)
+    builder.addStyle(spanStyle, registerHereStartIndex, registerHereStartIndex + registerHereText.length)
     builder.addStringAnnotation(
         Constants.Register.LOGIN_TAG,
-        loginHereText,
-        loginHereStartIndex,
-        loginHereStartIndex + loginHereText.length
+        registerHereText,
+        registerHereStartIndex,
+        registerHereStartIndex + registerHereText.length
     )
-    builder.addStyle(spanStyle, loginHereStartIndex, loginHereStartIndex + loginHereText.length)
+    builder.addStyle(spanStyle, registerHereStartIndex, registerHereStartIndex + registerHereText.length)
 
     val annotatedString = builder.toAnnotatedString()
     ClickableText(
         modifier = modifier,
         text = annotatedString,
         style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onPrimary),
-        onClick = { onLoginClick() }
+        onClick = { onRegisterClick() }
     )
 }
