@@ -50,7 +50,7 @@ fun OnboardingPage(
             )
             if (onSkipClickListener != null) {
                 TextButton(
-                    onClick = { onSkipClickListener.invoke() }
+                    onClick = onSkipClickListener
                 ) {
                     Text(
                         text = stringResource(R.string.onboarding_skip_button_text),

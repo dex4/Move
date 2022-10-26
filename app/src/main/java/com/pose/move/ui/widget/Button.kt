@@ -1,10 +1,11 @@
 package com.pose.move.ui.widget
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,22 +21,28 @@ import com.pose.move.ui.theme.MoveTheme
 fun MaterialButton(
     text: String,
     modifier: Modifier = Modifier,
-    isEnabled: Boolean = true,
+    enabled: Boolean = true,
     onClick: () -> Unit = {},
     @DrawableRes
     endIcon: Int = ID_NULL
 ) {
     Button(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.primary, shape = MaterialTheme.shapes.large)
             .height(56.dp),
-        onClick = { onClick.invoke() },
-        enabled = isEnabled,
+        onClick = onClick,
+        enabled = enabled,
+        shape = MaterialTheme.shapes.large,
+        border = if (!enabled) BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)) else null,
+        colors = buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0f),
+            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onPrimary
+            style = if (enabled) MaterialTheme.typography.labelLarge else MaterialTheme.typography.bodyLarge
         )
 
         if (endIcon != ID_NULL) {

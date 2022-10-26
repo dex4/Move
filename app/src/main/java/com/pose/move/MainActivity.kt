@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MoveTheme {
-                MoveMainNavHost(NavDestination.Onboarding.route)
+                MoveMainNavHost(NavDestination.Authentication.route)
             }
         }
     }

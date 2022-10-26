@@ -1,7 +1,6 @@
-@file:OptIn(ExperimentalPagerApi::class)
-
 package com.pose.move.feature.onboarding
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -62,6 +61,7 @@ fun OnboardingScreen(
         ) {
             HorizontalPagerIndicator(pagerState = pagerState)
             MaterialButton(
+                modifier = Modifier.animateContentSize(),
                 text = getNextButtonText(pagerState.currentPage),
                 endIcon = R.drawable.ic_arrow_forward,
                 onClick = { onNextClick(pagerState, coroutineScope, onCompleteOnboarding) })
@@ -69,13 +69,14 @@ fun OnboardingScreen(
     }
 }
 
+@OptIn(ExperimentalPagerApi::class)
 private fun onNextClick(pagerState: PagerState, coroutineScope: CoroutineScope, onCompleteOnboarding: () -> Unit) {
     if (pagerState.currentPage < onboardingPagesDetails.lastIndex) {
         coroutineScope.launch {
             pagerState.animateScrollToPage(pagerState.currentPage + 1)
         }
     } else {
-        onCompleteOnboarding.invoke()
+        onCompleteOnboarding()
     }
 }
 
