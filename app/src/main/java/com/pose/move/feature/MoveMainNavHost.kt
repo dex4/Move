@@ -40,12 +40,17 @@ private fun NavGraphBuilder.addAuthenticationGraph(navController: NavController)
             LoginScreen(
                 onLoginSuccess = { navController.navigate(HomeDestination.AvailableScootersScreen.route) },
                 onCreateNewAccountClick = { navController.navigateUp() },
-                onForgotPasswordClick = { navController.navigate(AuthenticationDestination.ForgotPasswordScreen.route) },
+                onForgotPasswordClick = { navController.navigate(AuthenticationDestination.ForgotPasswordScreen.createRoute(it)) },
             )
         }
 
-        composable(AuthenticationDestination.ForgotPasswordScreen.route) {
-            ForgotPasswordScreen()
+        composable(AuthenticationDestination.ForgotPasswordScreen.route) { backStackEntry ->
+            val loginInputEmail = backStackEntry.arguments?.getString("email") ?: ""
+
+            ForgotPasswordScreen(
+                loginInputEmail,
+                onBackButtonClick = { navController.navigateUp() }
+            )
         }
     }
 }

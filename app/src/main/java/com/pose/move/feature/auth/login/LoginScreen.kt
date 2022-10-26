@@ -100,6 +100,7 @@ fun LoginScreen(
                     color = MaterialTheme.colorScheme.onPrimary,
                     textDecoration = Underline,
                     fontWeight = SemiBold,
+                    fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
                 )
             ),
             onClick = { onForgotPasswordClick(email) }
