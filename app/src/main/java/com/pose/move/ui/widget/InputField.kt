@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
 import com.pose.move.ui.theme.MoveTheme
 import com.pose.move.ui.widget.inputfield.TrailIconBehavior
@@ -26,6 +27,8 @@ fun InputField(
     modifier: Modifier = Modifier,
     value: String = "",
     hint: String = "",
+    error: String? = null,
+    supportingText: String? = null,
     enabled: Boolean = true,
     singleLine: Boolean = true,
     maxLines: Int = 1,
@@ -67,7 +70,9 @@ fun InputField(
             else -> visualTransformation
         },
         label = { InputFieldLabel(hint) },
-        trailingIcon = { InputFieldTrailingIcon(trailIconBehavior, onTrailIconClick, isTrailIconVisible, isPasswordVisible) }
+        trailingIcon = { InputFieldTrailingIcon(trailIconBehavior, onTrailIconClick, isTrailIconVisible, isPasswordVisible) },
+        supportingText = { InputFieldSupportingText(error, supportingText) },
+        isError = !error.isNullOrEmpty()
     )
 }
 
@@ -76,7 +81,27 @@ private fun InputFieldLabel(labelText: String) {
     Text(
         text = labelText,
         style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        maxLines = 1,
+        overflow = Ellipsis
+    )
+}
+
+@Composable
+private fun InputFieldSupportingText(error: String? = null, supportingText: String? = null) {
+    val displayedValue = error ?: supportingText ?: return
+    val supportingTextColor = if (!error.isNullOrEmpty()) {
+        MaterialTheme.colorScheme.error
+    } else {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    }
+
+    Text(
+        text = displayedValue,
+        style = MaterialTheme.typography.bodySmall,
+        color = supportingTextColor,
+        maxLines = 1,
+        overflow = Ellipsis
     )
 }
 

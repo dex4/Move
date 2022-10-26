@@ -44,6 +44,8 @@ fun ResetPasswordScreen(
         val isButtonEnabled = rememberSaveable(newPassword, confirmNPassword) { newPassword.isNotEmpty() && confirmNPassword.isNotEmpty() }
         var isNewPasswordShown by rememberSaveable { mutableStateOf(false) }
         var isConfirmPasswordShown by rememberSaveable { mutableStateOf(false) }
+        val passwordMismatchErrorMessage = stringResource(id = R.string.reset_password_not_matching_error_text)
+        var errorMessage by rememberSaveable { mutableStateOf("") }
 
         IconButton(
             modifier = Modifier.padding(start = 10.dp),
@@ -94,10 +96,14 @@ fun ResetPasswordScreen(
             hint = stringResource(R.string.confirm_password_input_hint),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
-            onValueChanged = { confirmNPassword = it },
+            onValueChanged = {
+                confirmNPassword = it
+                errorMessage = ""
+            },
             isPasswordVisible = isConfirmPasswordShown,
             trailIconBehavior = TrailIconBehavior.PasswordToggle(R.drawable.ic_show_input, R.drawable.ic_hide_input),
-            onTrailIconClick = { isConfirmPasswordShown = !isConfirmPasswordShown }
+            onTrailIconClick = { isConfirmPasswordShown = !isConfirmPasswordShown },
+            error = errorMessage
         )
         MaterialButton(
             modifier = Modifier
@@ -106,7 +112,13 @@ fun ResetPasswordScreen(
                 .padding(horizontal = 24.dp),
             text = stringResource(R.string.reset_password_button_text),
             enabled = isButtonEnabled,
-            onClick = onPasswordResetSuccess
+            onClick = {
+                if (newPassword == confirmNPassword) {
+                    onPasswordResetSuccess()
+                } else {
+                    errorMessage = passwordMismatchErrorMessage
+                }
+            }
         )
     }
 }
