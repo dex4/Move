@@ -10,4 +10,8 @@ object Constants {
 
         const val LOGIN_TAG = "LOGIN_TAG"
     }
+
+    object ResetPassword {
+        const val RESET_PASSWORD_URI_PATTERN = "www.tapptitude.com/move/resetpassword?token={token}"
+    }
 }

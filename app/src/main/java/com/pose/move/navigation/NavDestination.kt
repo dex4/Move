@@ -17,8 +17,10 @@ sealed class AuthenticationDestination(val route: String) {
 
     object ForgotPasswordScreen : AuthenticationDestination("auth/forgot-password?email={email}") {
 
-        fun createRoute(email: String? = null) = "auth/forgot-password?email=$email"
+        fun createRoute(email: String? = null) = "auth/forgotpassword?email=$email"
     }
+
+    object ResetPassword : AuthenticationDestination("auth/resetpassword?token={token}")
 }
 
 sealed class HomeDestination(val route: String) {

@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ResetPasswordScreen() {
-    Text(modifier = Modifier.fillMaxSize(), text = "Reset Password")
+fun ResetPasswordScreen(
+    resetToken: String
+) {
+    Text(modifier = Modifier.fillMaxSize(), text = resetToken)
 }

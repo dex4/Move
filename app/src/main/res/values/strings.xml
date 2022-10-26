@@ -44,4 +44,14 @@
     <string name="forgot_password_title">Forgot password</string>
     <string name="forgot_password_subtitle">Enter the email address you’re using for your account bellow and we’ll send you a password reset link.</string>
     <string name="forgot_password_button_text">Send Reset Link</string>
+
+    <!-- region Reset Password -->
+    <string name="reset_password_confirmation_dialog_title">Password reset link sent</string>
+    <string name="reset_password_confirmation_dialog_description">Please check your inbox or spam for the email containing the password reset link.</string>
+    <string name="reset_password_confirmation_dialog_button_text">@string/ok</string>
+    <string name="reset_password_title">Reset password</string>
+    <string name="reset_password_button_text">Reset password</string>
+    <string name="reset_password_not_matching_error_text">Passwords do not match.</string>
+    <string name="new_password_input_hint">New password</string>
+    <string name="confirm_password_input_hint">Confirm new password</string>
 </resources>

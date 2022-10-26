@@ -8,14 +8,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import com.pose.move.feature.auth.forgotpassword.ForgotPasswordScreen
 import com.pose.move.feature.auth.login.LoginScreen
 import com.pose.move.feature.auth.register.RegisterScreen
+import com.pose.move.feature.auth.resetpassword.ResetPasswordScreen
 import com.pose.move.feature.home.availablescooters.AvailableScootersScreen
 import com.pose.move.feature.onboarding.OnboardingScreen
 import com.pose.move.navigation.AuthenticationDestination
 import com.pose.move.navigation.HomeDestination
 import com.pose.move.navigation.NavDestination
+import com.pose.move.util.Constants.ResetPassword.RESET_PASSWORD_URI_PATTERN
 
 @Composable
 fun MoveMainNavHost(startDestination: String) {
@@ -46,11 +49,18 @@ private fun NavGraphBuilder.addAuthenticationGraph(navController: NavController)
 
         composable(AuthenticationDestination.ForgotPasswordScreen.route) { backStackEntry ->
             val loginInputEmail = backStackEntry.arguments?.getString("email") ?: ""
-
             ForgotPasswordScreen(
                 loginInputEmail,
                 onBackButtonClick = { navController.navigateUp() }
             )
+        }
+
+        composable(
+            AuthenticationDestination.ResetPassword.route,
+            deepLinks = listOf(navDeepLink { uriPattern = RESET_PASSWORD_URI_PATTERN })
+        ) { backStackEntry ->
+            val resetToken = backStackEntry.arguments?.getString("token") ?: ""
+            ResetPasswordScreen(resetToken)
         }
     }
 }
