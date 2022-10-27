@@ -1,13 +1,10 @@
-package com.pose.move.feature
+package com.pose.move.navigation.auth
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
 import com.pose.move.LocalActivity
 import com.pose.move.feature.auth.forgotpassword.ForgotPasswordScreen
@@ -15,24 +12,11 @@ import com.pose.move.feature.auth.licenseverification.LicenseVerificationScreen
 import com.pose.move.feature.auth.login.LoginScreen
 import com.pose.move.feature.auth.register.RegisterScreen
 import com.pose.move.feature.auth.resetpassword.ResetPasswordScreen
-import com.pose.move.feature.home.availablescooters.AvailableScootersScreen
-import com.pose.move.feature.onboarding.OnboardingScreen
-import com.pose.move.navigation.AuthenticationDestination
-import com.pose.move.navigation.HomeDestination
 import com.pose.move.navigation.NavDestination
-import com.pose.move.util.Constants.ResetPassword.RESET_PASSWORD_URI_PATTERN
+import com.pose.move.navigation.home.HomeDestination
+import com.pose.move.util.Constants
 
-@Composable
-fun MoveMainNavHost(startDestination: String) {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = startDestination) {
-        addOnboarding(navController)
-        addAuthenticationGraph(navController)
-        addHome(navController)
-    }
-}
-
-private fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
+fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
     navigation(AuthenticationDestination.RegisterScreen.route, NavDestination.Authentication.route) {
         composable(AuthenticationDestination.RegisterScreen.route) {
             RegisterScreen(
@@ -78,7 +62,7 @@ private fun NavGraphBuilder.addAuthenticationGraph(navController: NavController)
 
         composable(
             AuthenticationDestination.ResetPassword.route,
-            deepLinks = listOf(navDeepLink { uriPattern = RESET_PASSWORD_URI_PATTERN })
+            deepLinks = listOf(navDeepLink { uriPattern = Constants.ResetPassword.RESET_PASSWORD_URI_PATTERN })
         ) { backStackEntry ->
             val resetToken = backStackEntry.arguments?.getString("token") ?: ""
 //            if (isUserAuthenticated) {
@@ -103,25 +87,6 @@ private fun NavGraphBuilder.addAuthenticationGraph(navController: NavController)
                     )
                 }
             )
-        }
-    }
-}
-
-private fun NavGraphBuilder.addOnboarding(navController: NavController) {
-    composable(NavDestination.Onboarding.route) {
-        OnboardingScreen {
-            navController.navigate(
-                AuthenticationDestination.RegisterScreen.route,
-                NavOptions.Builder().setPopUpTo(NavDestination.Onboarding.route, true).build()
-            )
-        }
-    }
-}
-
-private fun NavGraphBuilder.addHome(navController: NavController) {
-    navigation(HomeDestination.AvailableScootersScreen.route, NavDestination.Home.route) {
-        composable(HomeDestination.AvailableScootersScreen.route) {
-            AvailableScootersScreen()
         }
     }
 }
