@@ -14,4 +14,9 @@ object Constants {
     object ResetPassword {
         const val RESET_PASSWORD_URI_PATTERN = "www.tapptitude.com/move/resetpassword?token={token}"
     }
+
+    object LicenseVerification {
+        const val TEMPORARY_LICENSE_PICTURE_FILE_NAME = "temporaryLicensePicture"
+        const val TEMPORARY_LICENSE_PICTURE_FILE_EXTENSION = ".png"
+    }
 }

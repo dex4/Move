@@ -17,7 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ContentScale.Companion.Crop
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -42,7 +42,7 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .paint(painterResource(R.drawable.bg_app), contentScale = ContentScale.Crop)
+            .paint(painterResource(R.drawable.bg_app), contentScale = Crop)
             .padding(horizontal = 24.dp, vertical = 20.dp)
     ) {
         var email by rememberSaveable { mutableStateOf("") }

@@ -1,5 +1,7 @@
 package com.pose.move.navigation.auth
 
+import android.net.Uri
+import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -9,6 +11,7 @@ import androidx.navigation.navDeepLink
 import com.pose.move.LocalActivity
 import com.pose.move.feature.auth.forgotpassword.ForgotPasswordScreen
 import com.pose.move.feature.auth.licenseverification.LicenseVerificationScreen
+import com.pose.move.feature.auth.licenseverification.UploadLicenseScreen
 import com.pose.move.feature.auth.login.LoginScreen
 import com.pose.move.feature.auth.register.RegisterScreen
 import com.pose.move.feature.auth.resetpassword.ResetPasswordScreen
@@ -17,7 +20,7 @@ import com.pose.move.navigation.home.HomeDestination
 import com.pose.move.util.Constants
 
 fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
-    navigation(AuthenticationDestination.RegisterScreen.route, NavDestination.Authentication.route) {
+    navigation(AuthenticationDestination.LicenseVerificationScreen.route, NavDestination.Authentication.route) {
         composable(AuthenticationDestination.RegisterScreen.route) {
             RegisterScreen(
                 onRegisterSuccess = {
@@ -44,12 +47,29 @@ fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
         }
 
         composable(AuthenticationDestination.LicenseVerificationScreen.route) {
-            val ac = LocalActivity.current
+            val activity = LocalActivity.current
 
             LicenseVerificationScreen(
-                onBackButtonClick = { ac.onBackPressedDispatcher.onBackPressed() },
-                onAddLicenseClick = { }
+                onBackButtonClick = { activity.onBackPressedDispatcher.onBackPressed() },
+                onGetLicenseImageSuccess = { uri: Uri ->
+                    navController.navigate(
+                        AuthenticationDestination.UploadLicenseScreen.createRoute(uri.toString()),
+                        NavOptions.Builder().setPopUpTo(AuthenticationDestination.LicenseVerificationScreen.route, true).build()
+                    )
+                }
             )
+        }
+
+        composable(AuthenticationDestination.UploadLicenseScreen.route) { backStackEntry ->
+            val licenseImageUri = backStackEntry.arguments?.getString("licenseImageUri")?.toUri()
+            requireNotNull(licenseImageUri)
+
+            UploadLicenseScreen(licenseImageUri) {
+                navController.navigate(
+                    NavDestination.Home.route,
+                    NavOptions.Builder().setPopUpTo(AuthenticationDestination.UploadLicenseScreen.route, true).build()
+                )
+            }
         }
 
         composable(AuthenticationDestination.ForgotPasswordScreen.route) { backStackEntry ->
