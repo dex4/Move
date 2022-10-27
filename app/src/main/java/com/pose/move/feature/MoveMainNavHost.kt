@@ -9,7 +9,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
+import com.pose.move.LocalActivity
 import com.pose.move.feature.auth.forgotpassword.ForgotPasswordScreen
+import com.pose.move.feature.auth.licenseverification.LicenseVerificationScreen
 import com.pose.move.feature.auth.login.LoginScreen
 import com.pose.move.feature.auth.register.RegisterScreen
 import com.pose.move.feature.auth.resetpassword.ResetPasswordScreen
@@ -34,16 +36,35 @@ private fun NavGraphBuilder.addAuthenticationGraph(navController: NavController)
     navigation(AuthenticationDestination.RegisterScreen.route, NavDestination.Authentication.route) {
         composable(AuthenticationDestination.RegisterScreen.route) {
             RegisterScreen(
-                onRegisterSuccess = { navController.navigate(HomeDestination.AvailableScootersScreen.route) },
+                onRegisterSuccess = {
+                    navController.navigate(
+                        AuthenticationDestination.LicenseVerificationScreen.route,
+                        NavOptions.Builder().setPopUpTo(AuthenticationDestination.RegisterScreen.route, true).build()
+                    )
+                },
                 onLoginClick = { navController.navigate(AuthenticationDestination.LoginScreen.route) }
             )
         }
 
         composable(AuthenticationDestination.LoginScreen.route) {
             LoginScreen(
-                onLoginSuccess = { navController.navigate(HomeDestination.AvailableScootersScreen.route) },
+                onLoginSuccess = {
+                    navController.navigate(
+                        HomeDestination.AvailableScootersScreen.route,
+                        NavOptions.Builder().setPopUpTo(AuthenticationDestination.LoginScreen.route, true).build()
+                    )
+                },
                 onCreateNewAccountClick = { navController.navigateUp() },
                 onForgotPasswordClick = { navController.navigate(AuthenticationDestination.ForgotPasswordScreen.createRoute(it)) },
+            )
+        }
+
+        composable(AuthenticationDestination.LicenseVerificationScreen.route) {
+            val ac = LocalActivity.current
+
+            LicenseVerificationScreen(
+                onBackButtonClick = { ac.onBackPressedDispatcher.onBackPressed() },
+                onAddLicenseClick = { }
             )
         }
 

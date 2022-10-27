@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.pose.move.R
-import com.pose.move.ui.widget.InputField
+import com.pose.move.ui.widget.inputfield.InputField
 import com.pose.move.ui.widget.MaterialButton
 import com.pose.move.ui.widget.inputfield.TrailIconBehavior
 

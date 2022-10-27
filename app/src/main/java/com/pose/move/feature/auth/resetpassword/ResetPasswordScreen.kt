@@ -23,7 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.pose.move.R
-import com.pose.move.ui.widget.InputField
+import com.pose.move.ui.widget.inputfield.InputField
 import com.pose.move.ui.widget.MaterialButton
 import com.pose.move.ui.widget.inputfield.TrailIconBehavior
 
@@ -42,8 +42,6 @@ fun ResetPasswordScreen(
         var newPassword by rememberSaveable { mutableStateOf("") }
         var confirmNPassword by rememberSaveable { mutableStateOf("") }
         val isButtonEnabled = rememberSaveable(newPassword, confirmNPassword) { newPassword.isNotEmpty() && confirmNPassword.isNotEmpty() }
-        var isNewPasswordShown by rememberSaveable { mutableStateOf(false) }
-        var isConfirmPasswordShown by rememberSaveable { mutableStateOf(false) }
         val passwordMismatchErrorMessage = stringResource(id = R.string.reset_password_not_matching_error_text)
         var errorMessage by rememberSaveable { mutableStateOf("") }
 
@@ -83,9 +81,7 @@ fun ResetPasswordScreen(
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
             onValueChanged = { newPassword = it },
-            isPasswordVisible = isNewPasswordShown,
-            trailIconBehavior = TrailIconBehavior.PasswordToggle(R.drawable.ic_show_input, R.drawable.ic_hide_input),
-            onTrailIconClick = { isNewPasswordShown = !isNewPasswordShown }
+            trailIconBehavior = TrailIconBehavior.PasswordToggle(R.drawable.ic_show_input, R.drawable.ic_hide_input)
         )
         InputField(
             modifier = Modifier
@@ -100,9 +96,7 @@ fun ResetPasswordScreen(
                 confirmNPassword = it
                 errorMessage = ""
             },
-            isPasswordVisible = isConfirmPasswordShown,
             trailIconBehavior = TrailIconBehavior.PasswordToggle(R.drawable.ic_show_input, R.drawable.ic_hide_input),
-            onTrailIconClick = { isConfirmPasswordShown = !isConfirmPasswordShown },
             error = errorMessage
         )
         MaterialButton(

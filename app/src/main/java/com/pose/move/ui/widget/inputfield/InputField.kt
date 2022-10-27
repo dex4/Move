@@ -1,4 +1,4 @@
-package com.pose.move.ui.widget
+package com.pose.move.ui.widget.inputfield
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -12,6 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -19,7 +23,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
 import com.pose.move.ui.theme.MoveTheme
-import com.pose.move.ui.widget.inputfield.TrailIconBehavior
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,12 +38,13 @@ fun InputField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    isPasswordVisible: Boolean = false,
     isTrailIconVisible: Boolean = true,
     trailIconBehavior: TrailIconBehavior = TrailIconBehavior.None,
     onTrailIconClick: (() -> Unit)? = null,
     onValueChanged: (String) -> Unit,
 ) {
+    var isPasswordVisible by rememberSaveable { mutableStateOf(false) }
+
     TextField(
         modifier = modifier,
         value = value,
@@ -70,7 +74,16 @@ fun InputField(
             else -> visualTransformation
         },
         label = { InputFieldLabel(hint) },
-        trailingIcon = { InputFieldTrailingIcon(trailIconBehavior, onTrailIconClick, isTrailIconVisible, isPasswordVisible) },
+        trailingIcon = {
+            InputFieldTrailingIcon(
+                trailIconBehavior = trailIconBehavior,
+                isTrailIconVisible = isTrailIconVisible,
+                isPasswordVisible = isPasswordVisible,
+                onTrailIconClick = {
+                    onTrailIconClick?.invoke()
+                    if (trailIconBehavior is TrailIconBehavior.PasswordToggle) isPasswordVisible = !isPasswordVisible
+                })
+        },
         supportingText = { InputFieldSupportingText(error, supportingText) },
         isError = !error.isNullOrEmpty()
     )

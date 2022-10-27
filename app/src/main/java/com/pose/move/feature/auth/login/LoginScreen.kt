@@ -29,7 +29,7 @@ import androidx.compose.ui.text.style.TextDecoration.Companion.Underline
 import androidx.compose.ui.unit.dp
 import com.pose.move.R
 import com.pose.move.feature.auth.login.widget.RegisterClickableSpan
-import com.pose.move.ui.widget.InputField
+import com.pose.move.ui.widget.inputfield.InputField
 import com.pose.move.ui.widget.MaterialButton
 import com.pose.move.ui.widget.inputfield.TrailIconBehavior
 
@@ -50,7 +50,6 @@ fun LoginScreen(
         val isButtonEnabled = rememberSaveable(email, password) {
             email.isNotEmpty() && password.isNotEmpty()
         }
-        var isPasswordShown by rememberSaveable { mutableStateOf(false) }
 
         Image(painter = painterResource(R.drawable.ic_small_logo_white), contentDescription = "Authentication app logo")
         Text(
@@ -88,9 +87,7 @@ fun LoginScreen(
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
             onValueChanged = { password = it },
-            isPasswordVisible = isPasswordShown,
-            trailIconBehavior = TrailIconBehavior.PasswordToggle(R.drawable.ic_show_input, R.drawable.ic_hide_input),
-            onTrailIconClick = { isPasswordShown = !isPasswordShown }
+            trailIconBehavior = TrailIconBehavior.PasswordToggle(R.drawable.ic_show_input, R.drawable.ic_hide_input)
         )
         ClickableText(
             modifier = Modifier.padding(top = 32.dp),

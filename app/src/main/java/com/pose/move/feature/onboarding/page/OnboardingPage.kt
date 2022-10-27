@@ -9,7 +9,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ContentScale.Companion.Crop
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,7 +33,7 @@ fun OnboardingPage(
                 .fillMaxWidth()
                 .aspectRatio(1f),
             painter = painterResource(pageDetails.image),
-            contentScale = ContentScale.Crop,
+            contentScale = Crop,
             contentDescription = "Onboarding Page Image"
         )
         Row(
@@ -62,7 +62,7 @@ fun OnboardingPage(
         }
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
-            text = stringResource(id = pageDetails.description),
+            text = stringResource(pageDetails.description),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onBackground
         )
