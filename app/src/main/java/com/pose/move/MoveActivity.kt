@@ -10,10 +10,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.pose.move.navigation.MoveMainNavHost
 import com.pose.move.feature.onboarding.OnboardingScreen
-import com.pose.move.navigation.NavDestination
+import com.pose.move.feature.splash.SplashViewModel
 import com.pose.move.ui.theme.MoveTheme
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MoveActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var viewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -23,15 +29,16 @@ class MoveActivity : ComponentActivity() {
             CompositionLocalProvider(
                 LocalActivity provides this
             ) {
-                MoveApp()
+                MoveAppUI(viewModel.startDestination)
             }
         }
     }
 }
+
 @Composable
-private fun MoveApp() {
+private fun MoveAppUI(startDestination: String) {
     MoveTheme {
-        MoveMainNavHost(NavDestination.Authentication.route)
+        MoveMainNavHost(startDestination)
     }
 }
 

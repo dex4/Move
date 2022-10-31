@@ -10,8 +10,8 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.navDeepLink
 import com.pose.move.LocalActivity
 import com.pose.move.feature.auth.forgotpassword.ForgotPasswordScreen
-import com.pose.move.feature.auth.licenseverification.LicenseVerificationScreen
-import com.pose.move.feature.auth.licenseverification.UploadLicenseScreen
+import com.pose.move.feature.licenseverification.LicenseVerificationScreen
+import com.pose.move.feature.licenseverification.UploadLicenseScreen
 import com.pose.move.feature.auth.login.LoginScreen
 import com.pose.move.feature.auth.register.RegisterScreen
 import com.pose.move.feature.auth.resetpassword.ResetPasswordScreen
@@ -20,7 +20,7 @@ import com.pose.move.navigation.home.HomeDestination
 import com.pose.move.util.Constants
 
 fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
-    navigation(AuthenticationDestination.LicenseVerificationScreen.route, NavDestination.Authentication.route) {
+    navigation(AuthenticationDestination.RegisterScreen.route, NavDestination.Authentication.route) {
         composable(AuthenticationDestination.RegisterScreen.route) {
             RegisterScreen(
                 onRegisterSuccess = {

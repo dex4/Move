@@ -1,4 +1,4 @@
-package com.pose.move.feature.auth.licenseverification
+package com.pose.move.feature.licenseverification
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

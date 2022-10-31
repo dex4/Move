@@ -1,10 +1,10 @@
-package com.pose.move.feature.auth.licenseverification
+package com.pose.move.feature.licenseverification
 
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.P
-import android.provider.MediaStore
+import android.provider.MediaStore.Images.Media
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -39,7 +39,7 @@ fun UploadLicenseScreen(
         ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, licenseImageUri))
     } else {
         @Suppress("DEPRECATION")
-        MediaStore.Images.Media.getBitmap(contentResolver, licenseImageUri)
+        Media.getBitmap(contentResolver, licenseImageUri)
     }
 
     Column(
