@@ -38,7 +38,7 @@ import com.pose.move.util.Constants.LicenseVerification.TEMPORARY_LICENSE_PICTUR
 import java.io.File
 
 @Composable
-fun LicenseVerificationScreen(
+fun LicenseInformationalScreen(
     onBackButtonClick: () -> Unit,
     onGetLicenseImageSuccess: (uri: Uri) -> Unit
 ) {
@@ -46,7 +46,7 @@ fun LicenseVerificationScreen(
     val activity = LocalActivity.current
     val getGalleryImageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { isSuccessFul ->
         val uri = licenseImageUri
-        if(isSuccessFul && uri != null) {
+        if (isSuccessFul && uri != null) {
             onGetLicenseImageSuccess(uri)
         } else {
             //TODO: Implement showing error alert
@@ -124,6 +124,6 @@ private fun createLicensePictureUri(activity: ComponentActivity): Uri {
 @Composable
 private fun LicenseVerificationPreview() {
     MoveTheme {
-        LicenseVerificationScreen({}, {})
+        LicenseInformationalScreen({}, {})
     }
 }

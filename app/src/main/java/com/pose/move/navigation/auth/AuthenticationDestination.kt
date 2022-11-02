@@ -6,12 +6,6 @@ sealed class AuthenticationDestination(val route: String) {
 
     object LoginScreen : AuthenticationDestination("auth/login")
 
-    object LicenseVerificationScreen : AuthenticationDestination("auth/license-verification")
-
-    object UploadLicenseScreen : AuthenticationDestination("auth/upload-license?licenseImageUri={licenseImageUri}") {
-        fun createRoute(licenseImageUri: String) = "auth/upload-license?licenseImageUri=$licenseImageUri"
-    }
-
     object ForgotPasswordScreen : AuthenticationDestination("auth/forgot-password?email={email}") {
 
         fun createRoute(email: String? = null) = "auth/forgot-password?email=$email"

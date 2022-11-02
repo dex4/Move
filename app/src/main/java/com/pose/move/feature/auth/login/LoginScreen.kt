@@ -35,7 +35,7 @@ import com.pose.move.ui.widget.inputfield.TrailIconBehavior
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit,
+    onLoginClick: (email: String, password: String) -> Unit,
     onCreateNewAccountClick: () -> Unit,
     onForgotPasswordClick: (email: String) -> Unit
 ) {
@@ -108,7 +108,7 @@ fun LoginScreen(
                 .padding(top = 32.dp),
             text = stringResource(R.string.login_button_text),
             enabled = isButtonEnabled,
-            onClick = onLoginSuccess
+            onClick = { onLoginClick(email, password) }
         )
         RegisterClickableSpan(Modifier.padding(top = 32.dp), onCreateNewAccountClick)
     }

@@ -6,5 +6,7 @@ sealed class NavDestination(val route: String) {
 
     object Authentication : NavDestination("auth")
 
+    object LicenseVerification : NavDestination("license-verification")
+
     object Home : NavDestination("home")
 }

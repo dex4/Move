@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.pose.move.navigation.auth.addAuthenticationGraph
 import com.pose.move.navigation.home.addHome
+import com.pose.move.navigation.licenseverification.addLicenseVerificationGraph
 import com.pose.move.navigation.onboarding.addOnboarding
 
 @Composable
@@ -14,5 +15,6 @@ fun MoveMainNavHost(startDestination: String) {
         addOnboarding(navController)
         addAuthenticationGraph(navController)
         addHome(navController)
+        addLicenseVerificationGraph(navController)
     }
 }
