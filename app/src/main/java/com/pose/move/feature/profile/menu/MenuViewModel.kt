@@ -1,4 +1,4 @@
-package com.pose.move.feature.home.availablescooters
+package com.pose.move.feature.profile.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +8,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class AvailableScootersViewModel @Inject constructor(
+class MenuViewModel @Inject constructor(
     private val internalStorageManager: InternalStorageManager
 ) : ViewModel() {
 

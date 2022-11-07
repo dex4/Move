@@ -9,4 +9,6 @@ sealed class NavDestination(val route: String) {
     object LicenseVerification : NavDestination("license-verification")
 
     object Home : NavDestination("home")
+
+    object Profile : NavDestination("profile")
 }

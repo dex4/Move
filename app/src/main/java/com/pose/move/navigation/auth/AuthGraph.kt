@@ -27,7 +27,7 @@ fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
                     registerViewModel.register(email, userName, password)
                     navController.navigate(
                         NavDestination.LicenseVerification.route,
-                        NavOptions.Builder().setPopUpTo(AuthenticationDestination.RegisterScreen.route, true).build()
+                        NavOptions.Builder().setPopUpTo(NavDestination.Authentication.route, true).build()
                     )
                 },
                 onLoginClick = { navController.navigate(AuthenticationDestination.LoginScreen.route) }
@@ -42,7 +42,7 @@ fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
                     loginViewModel.login(email, password)
                     navController.navigate(
                         HomeDestination.AvailableScootersScreen.route,
-                        NavOptions.Builder().setPopUpTo(AuthenticationDestination.LoginScreen.route, true).build()
+                        NavOptions.Builder().setPopUpTo(NavDestination.Authentication.route, true).build()
                     )
                 },
                 onCreateNewAccountClick = { navController.navigateUp() },

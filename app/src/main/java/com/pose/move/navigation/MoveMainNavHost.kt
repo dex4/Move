@@ -7,6 +7,7 @@ import com.pose.move.navigation.auth.addAuthenticationGraph
 import com.pose.move.navigation.home.addHome
 import com.pose.move.navigation.licenseverification.addLicenseVerificationGraph
 import com.pose.move.navigation.onboarding.addOnboarding
+import com.pose.move.navigation.profile.addProfile
 
 @Composable
 fun MoveMainNavHost(startDestination: String) {
@@ -16,5 +17,6 @@ fun MoveMainNavHost(startDestination: String) {
         addAuthenticationGraph(navController)
         addHome(navController)
         addLicenseVerificationGraph(navController)
+        addProfile(navController)
     }
 }
