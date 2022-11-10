@@ -29,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign.Companion.Center
 import androidx.compose.ui.unit.dp
 import com.pose.move.R
-import com.pose.move.ui.widget.MaterialButton
+import com.pose.move.ui.widget.PrimaryButton
 
 @Composable
 fun UploadLicenseScreen(
@@ -59,7 +59,7 @@ fun UploadLicenseScreen(
             textAlign = Center
         )
         Spacer(Modifier.weight(1f))
-        MaterialButton(
+        PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 32.dp),

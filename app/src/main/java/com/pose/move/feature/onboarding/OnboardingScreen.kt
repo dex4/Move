@@ -25,7 +25,7 @@ import com.pose.move.R
 import com.pose.move.feature.onboarding.page.OnboardingPage
 import com.pose.move.feature.onboarding.page.OnboardingPageDetails
 import com.pose.move.ui.theme.MoveTheme
-import com.pose.move.ui.widget.MaterialButton
+import com.pose.move.ui.widget.PrimaryButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -60,7 +60,7 @@ fun OnboardingScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             HorizontalPagerIndicator(pagerState = pagerState)
-            MaterialButton(
+            PrimaryButton(
                 modifier = Modifier.animateContentSize(),
                 text = getNextButtonText(pagerState.currentPage),
                 endIcon = R.drawable.ic_arrow_forward,

@@ -24,7 +24,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.pose.move.R
 import com.pose.move.ui.widget.inputfield.InputField
-import com.pose.move.ui.widget.MaterialButton
+import com.pose.move.ui.widget.PrimaryButton
 import com.pose.move.ui.widget.inputfield.TrailIconBehavior
 
 @Composable
@@ -99,7 +99,7 @@ fun ResetPasswordScreen(
             trailIconBehavior = TrailIconBehavior.PasswordToggle(R.drawable.ic_show_input, R.drawable.ic_hide_input),
             error = errorMessage
         )
-        MaterialButton(
+        PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp)

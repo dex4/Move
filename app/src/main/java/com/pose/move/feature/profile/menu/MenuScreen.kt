@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pose.move.ui.widget.MaterialButton
+import com.pose.move.ui.widget.PrimaryButton
 
 @Composable
 fun MenuScreen(
@@ -21,17 +21,17 @@ fun MenuScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Menu")
-        MaterialButton(
+        PrimaryButton(
             modifier = Modifier.padding(top = 16.dp),
             text = "Logout",
             onClick = { onClearStorageClick(false, false) }
         )
-        MaterialButton(
+        PrimaryButton(
             modifier = Modifier.padding(top = 16.dp),
             text = "Logout & Clear Photo",
             onClick = { onClearStorageClick(true, false) }
         )
-        MaterialButton(
+        PrimaryButton(
             modifier = Modifier.padding(top = 16.dp),
             text = "Clear App",
             onClick = { onClearStorageClick(false, true) }

@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.pose.move.R
 import com.pose.move.feature.auth.login.widget.RegisterClickableSpan
 import com.pose.move.ui.widget.inputfield.InputField
-import com.pose.move.ui.widget.MaterialButton
+import com.pose.move.ui.widget.PrimaryButton
 import com.pose.move.ui.widget.inputfield.TrailIconBehavior
 
 @Composable
@@ -102,7 +102,7 @@ fun LoginScreen(
             ),
             onClick = { onForgotPasswordClick(email) }
         )
-        MaterialButton(
+        PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),

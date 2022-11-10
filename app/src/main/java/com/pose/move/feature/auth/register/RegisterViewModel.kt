@@ -7,11 +7,9 @@ import com.pose.move.network.user.RegisterRequest
 import com.pose.move.network.user.UserService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
@@ -23,26 +21,29 @@ class RegisterViewModel @Inject constructor(
     val uiState: StateFlow<RegisterState>
         get() = _uiState
 
-    fun register(email: String, userName: String, password: String, onRegisterSuccess: () -> Unit) {
-        viewModelScope.launch {
-            val result = withContext(IO) {
-                userService.registerUser(RegisterRequest(userName, email, password))
-            }
+    private fun register() {
+        _uiState.value = _uiState.value.copy(isLoading = true)
 
-            internalStorageManager.setIsUserLoggedIn(result.authToken.isNotEmpty())
-            onRegisterSuccess()
+        viewModelScope.launch {
+            val result = userService.registerUser(
+                RegisterRequest(
+                    _uiState.value.email,
+                    _uiState.value.userName,
+                    _uiState.value.password
+                )
+            )
+
+//            internalStorageManager.setIsUserLoggedIn(result.authToken.isNotEmpty())
+            _uiState.value = _uiState.value.copy(isLoading = false, isUserLoggedIn = false)
         }
     }
-}
 
-data class RegisterState(
-    val email: String? = null,
-    val userName: String? = null,
-    val password: String? = null,
-    val error: String? = null,
-    val isLoading: Boolean = false,
-    val isUserLoggedIn: Boolean = false
-) {
-    fun isRegisterFormValid(): Boolean =
-        !(email.isNullOrEmpty() || userName.isNullOrEmpty() || password.isNullOrEmpty())
+    fun handleEvent(event: RegisterEvent) {
+        when (event) {
+            is RegisterEvent.EmailChanged -> _uiState.value = _uiState.value.copy(email = event.email)
+            is RegisterEvent.UserNameChanged -> _uiState.value = _uiState.value.copy(userName = event.userName)
+            is RegisterEvent.PasswordChanged -> _uiState.value = _uiState.value.copy(password = event.password)
+            is RegisterEvent.Register -> register()
+        }
+    }
 }

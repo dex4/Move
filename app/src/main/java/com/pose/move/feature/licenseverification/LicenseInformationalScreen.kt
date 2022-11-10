@@ -31,7 +31,7 @@ import com.pose.move.BuildConfig.APPLICATION_ID
 import com.pose.move.LocalActivity
 import com.pose.move.R
 import com.pose.move.ui.theme.MoveTheme
-import com.pose.move.ui.widget.MaterialButton
+import com.pose.move.ui.widget.PrimaryButton
 import com.pose.move.ui.widget.Toolbar
 import com.pose.move.util.Constants.LicenseVerification.TEMPORARY_LICENSE_PICTURE_FILE_EXTENSION
 import com.pose.move.util.Constants.LicenseVerification.TEMPORARY_LICENSE_PICTURE_FILE_NAME
@@ -90,7 +90,7 @@ fun LicenseInformationalScreen(
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
-            MaterialButton(
+            PrimaryButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp, vertical = 32.dp),

@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Icon
@@ -18,7 +19,7 @@ import androidx.core.content.res.ResourcesCompat.ID_NULL
 import com.pose.move.ui.theme.MoveTheme
 
 @Composable
-fun MaterialButton(
+fun PrimaryButton(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -47,6 +48,7 @@ fun MaterialButton(
 
         if (endIcon != ID_NULL) {
             Icon(
+                modifier = Modifier.padding(start = 12.dp),
                 painter = painterResource(endIcon),
                 contentDescription = "Button Icon"
             )
@@ -58,6 +60,6 @@ fun MaterialButton(
 @Composable
 fun MaterialButtonPreview() {
     MoveTheme {
-        MaterialButton("OK", Modifier.fillMaxWidth())
+        PrimaryButton("OK", Modifier.fillMaxWidth())
     }
 }

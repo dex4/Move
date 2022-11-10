@@ -9,10 +9,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
@@ -26,13 +22,14 @@ import androidx.compose.ui.unit.dp
 import com.pose.move.R
 import com.pose.move.feature.auth.register.widget.LoginClickableSpan
 import com.pose.move.feature.auth.register.widget.UserAgreementClickableSpan
+import com.pose.move.ui.widget.ProgressButton
 import com.pose.move.ui.widget.inputfield.InputField
-import com.pose.move.ui.widget.MaterialButton
 import com.pose.move.ui.widget.inputfield.TrailIconBehavior
 
 @Composable
 fun RegisterScreen(
-    onRegisterClick: (email: String, userName: String, password: String) -> Unit,
+    registerState: RegisterState,
+    handleEvent: (event: RegisterEvent) -> Unit,
     onLoginClick: () -> Unit
 ) {
     Column(
@@ -41,13 +38,6 @@ fun RegisterScreen(
             .paint(painterResource(R.drawable.bg_app), contentScale = Crop)
             .padding(horizontal = 24.dp, vertical = 20.dp)
     ) {
-        var email by rememberSaveable { mutableStateOf("") }
-        var userName by rememberSaveable { mutableStateOf("") }
-        var password by rememberSaveable { mutableStateOf("") }
-        val isButtonEnabled = rememberSaveable(email, userName, password) {
-            email.isNotEmpty() && userName.isNotEmpty() && password.isNotEmpty()
-        }
-
         Image(painter = painterResource(R.drawable.ic_small_logo_white), contentDescription = "Authentication app logo")
         Text(
             modifier = Modifier.padding(top = 16.dp),
@@ -67,44 +57,45 @@ fun RegisterScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
-            value = email,
+            value = registerState.email,
             hint = stringResource(R.string.authentication_email_input_hint),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = Email),
-            onValueChanged = { email = it },
+            onValueChanged = { handleEvent(RegisterEvent.EmailChanged(it)) },
             trailIconBehavior = TrailIconBehavior.Action(R.drawable.ic_clear),
-            isTrailIconVisible = email.isNotEmpty(),
-            onTrailIconClick = { email = "" }
+            isTrailIconVisible = registerState.email.isNotEmpty(),
+            onTrailIconClick = { handleEvent(RegisterEvent.EmailChanged("")) }
         )
         InputField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp),
-            value = userName,
+            value = registerState.userName,
             hint = stringResource(R.string.authentication_username_input_hint),
-            onValueChanged = { userName = it },
+            onValueChanged = { handleEvent(RegisterEvent.UserNameChanged(it)) },
             trailIconBehavior = TrailIconBehavior.Action(R.drawable.ic_clear),
-            isTrailIconVisible = userName.isNotEmpty(),
-            onTrailIconClick = { userName = "" }
+            isTrailIconVisible = registerState.userName.isNotEmpty(),
+            onTrailIconClick = { handleEvent(RegisterEvent.UserNameChanged("")) }
         )
         InputField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp),
-            value = password,
+            value = registerState.password,
             hint = stringResource(R.string.authentication_password_input_hint),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = Password),
             visualTransformation = PasswordVisualTransformation(),
-            onValueChanged = { password = it },
+            onValueChanged = { handleEvent(RegisterEvent.PasswordChanged(it)) },
             trailIconBehavior = TrailIconBehavior.PasswordToggle(R.drawable.ic_show_input, R.drawable.ic_hide_input)
         )
         UserAgreementClickableSpan()
-        MaterialButton(
+        ProgressButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
             text = stringResource(R.string.register_start_button_text),
-            enabled = isButtonEnabled,
-            onClick = { onRegisterClick(email, userName, password) }
+            enabled = registerState.isRegisterFormValid(),
+            loading = registerState.isLoading,
+            onClick = { handleEvent(RegisterEvent.Register) }
         )
         LoginClickableSpan(Modifier.padding(top = 32.dp), onLoginClick)
     }
