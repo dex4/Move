@@ -24,11 +24,12 @@ fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
 
             RegisterScreen(
                 onRegisterClick = { email: String, userName: String, password: String ->
-                    registerViewModel.register(email, userName, password)
-                    navController.navigate(
-                        NavDestination.LicenseVerification.route,
-                        NavOptions.Builder().setPopUpTo(NavDestination.Authentication.route, true).build()
-                    )
+                    registerViewModel.register(email, userName, password) {
+                        navController.navigate(
+                            NavDestination.LicenseVerification.route,
+                            NavOptions.Builder().setPopUpTo(NavDestination.Authentication.route, true).build()
+                        )
+                    }
                 },
                 onLoginClick = { navController.navigate(AuthenticationDestination.LoginScreen.route) }
             )

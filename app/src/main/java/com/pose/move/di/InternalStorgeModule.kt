@@ -9,13 +9,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 object InternalStorageModule {
 
     @Provides
     @Singleton
-    fun provideInternalStorageManager(@ApplicationContext context: Context): InternalStorageManager {
-        return InternalStorageManager(context)
-    }
+    fun provideInternalStorageManager(@ApplicationContext context: Context): InternalStorageManager = InternalStorageManager(context)
 }
