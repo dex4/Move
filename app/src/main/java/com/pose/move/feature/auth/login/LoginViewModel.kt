@@ -14,7 +14,7 @@ class LoginViewModel @Inject constructor(
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
-            internalStorageManager.setIsUserLoggedIn(true)
+            internalStorageManager.setAuthToken("")
             internalStorageManager.setHasUserAddedLicensePhoto(true)
         }
     }

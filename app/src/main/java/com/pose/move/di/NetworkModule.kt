@@ -1,5 +1,9 @@
 package com.pose.move.di
 
+import com.pose.move.data.preference.AuthTokenProvider
+import com.pose.move.data.preference.InternalStorageManager
+import com.pose.move.data.preference.RuntimeAuthTokenProvider
+import com.pose.move.network.interceptor.SessionInterceptor
 import com.pose.move.network.mock.MockUserService
 import com.pose.move.network.user.UserService
 import com.squareup.moshi.Moshi
@@ -9,6 +13,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.mock.MockRetrofit
@@ -29,8 +34,25 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient =
-        OkHttpClient.Builder().build()
+    fun provideOkHttpClient(sessionInterceptor: SessionInterceptor, loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+        OkHttpClient.Builder()
+            .addInterceptor(sessionInterceptor)
+            .addInterceptor(loggingInterceptor)
+            .build()
+
+    @Singleton
+    @Provides
+    fun provideSessionInterceptor(authTokenProvider: AuthTokenProvider): SessionInterceptor =
+        SessionInterceptor(authTokenProvider)
+
+    @Singleton
+    @Provides
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor()
+
+    @Singleton
+    @Provides
+    fun provideAuthTokenProvider(internalStorageManager: InternalStorageManager): AuthTokenProvider =
+        RuntimeAuthTokenProvider(internalStorageManager)
 
     @Singleton
     @Provides

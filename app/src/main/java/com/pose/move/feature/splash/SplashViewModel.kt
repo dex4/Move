@@ -12,7 +12,7 @@ class SplashViewModel @Inject constructor(private val internalStorageManager: In
     val startDestination: String
         get() =
             runBlocking {
-                val isUserLoggedIn = internalStorageManager.isUserLoggedIn.first()
+                val isUserLoggedIn = internalStorageManager.authenticationToken.first().isNotEmpty()
                 val hasUserAddedLicensePhoto = internalStorageManager.hasUserAddedLicensePhoto.first()
                 when {
                     isUserLoggedIn && hasUserAddedLicensePhoto -> NavDestination.Home.route

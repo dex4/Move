@@ -3,6 +3,8 @@
 
     <string name="dismiss">Dismiss</string>
     <string name="ok">OK</string>
+    <string name="connection_failure_message">Network connection unavailable.</string>
+    <string name="default_error_message">Something went wrong.</string>
 
     <!--region Onboarding-->
     <string name="onboarding_first_page_title">Safety</string>

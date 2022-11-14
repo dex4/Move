@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import java.io.IOException
 import javax.inject.Inject
@@ -25,11 +26,11 @@ class InternalStorageManager @Inject constructor(private val context: Context) {
         dataStore.setValue(KEY_IS_ONBOARDING_COMPLETE, value)
     }
 
-    val isUserLoggedIn: Flow<Boolean>
-        get() = dataStore.data.catchOrEmitEmpty().getValue(KEY_IS_USER_LOGGED_IN, false)
+    val authenticationToken: Flow<String>
+        get() = dataStore.data.catchOrEmitEmpty().getValue(KEY_AUTHENTICATION_TOKEN, "")
 
-    suspend fun setIsUserLoggedIn(value: Boolean) {
-        dataStore.setValue(KEY_IS_USER_LOGGED_IN, value)
+    suspend fun setAuthToken(value: String) {
+        dataStore.setValue(KEY_AUTHENTICATION_TOKEN, value)
     }
 
     // TODO: Remove this after integrating actual auth flow API/DB calls
@@ -59,7 +60,7 @@ class InternalStorageManager @Inject constructor(private val context: Context) {
         private const val KEY_APP_PREFERENCES = "com.pose.move.KEY_MOVE_APP_PREFERENCES"
 
         private val KEY_IS_ONBOARDING_COMPLETE = booleanPreferencesKey("KEY_IS_ONBOARDING_COMPLETE")
-        private val KEY_IS_USER_LOGGED_IN = booleanPreferencesKey("KEY_IS_USER_LOGGED_IN")
+        private val KEY_AUTHENTICATION_TOKEN = stringPreferencesKey("KEY_AUTHENTICATION_TOKEN")
         private val KEY_HAS_USER_ADDED_LICENSE_PHOTO = booleanPreferencesKey("KEY_HAS_USER_ADDED_LICENSE_PHOTO")
     }
 }
