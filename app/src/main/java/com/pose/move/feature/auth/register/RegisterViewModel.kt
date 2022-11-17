@@ -17,12 +17,12 @@ class RegisterViewModel @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(RegisterState())
-    val uiState: StateFlow<RegisterState>
+    private val _uiState = MutableStateFlow(RegisterUiState())
+    val uiState: StateFlow<RegisterUiState>
         get() = _uiState
 
     private fun register() {
-        _uiState.value = _uiState.value.copy(isLoading = true)
+        _uiState.value = _uiState.value.copy(isLoading = true, error = null)
 
         viewModelScope.launch {
             val result = userRemoteDataSource.registerUser(

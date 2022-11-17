@@ -1,11 +1,6 @@
 package com.pose.move.navigation.auth
 
-import android.util.Log
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -15,40 +10,16 @@ import androidx.navigation.navDeepLink
 import com.pose.move.feature.auth.forgotpassword.ForgotPasswordScreen
 import com.pose.move.feature.auth.login.LoginScreen
 import com.pose.move.feature.auth.login.LoginViewModel
-import com.pose.move.feature.auth.register.RegisterEvent
-import com.pose.move.feature.auth.register.RegisterScreen
-import com.pose.move.feature.auth.register.RegisterState
-import com.pose.move.feature.auth.register.RegisterViewModel
+import com.pose.move.feature.auth.register.RegisterRoute
 import com.pose.move.feature.auth.resetpassword.ResetPasswordScreen
 import com.pose.move.navigation.NavDestination
 import com.pose.move.navigation.home.HomeDestination
 import com.pose.move.util.Constants
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
     navigation(AuthenticationDestination.RegisterScreen.route, NavDestination.Authentication.route) {
         composable(AuthenticationDestination.RegisterScreen.route) {
-            val registerViewModel: RegisterViewModel = hiltViewModel()
-            val uiState: RegisterState by registerViewModel.uiState.collectAsStateWithLifecycle()
-
-            RegisterScreen(
-                registerState = uiState,
-                handleEvent = registerViewModel::handleEvent,
-                onLoginClick = { navController.navigate(AuthenticationDestination.LoginScreen.route) }
-            )
-
-            LaunchedEffect(uiState) {
-                if (uiState.isUserLoggedIn) {
-                    navController.navigate(
-                        NavDestination.LicenseVerification.route,
-                        NavOptions.Builder().setPopUpTo(NavDestination.Authentication.route, true).build()
-                    )
-                } else if (uiState.error != null) {
-                    //TODO: Implement snackbar-like error behavior & handle event on user dismiss
-                    Log.d("WRKR", uiState.error.toString())
-                    registerViewModel.handleEvent(RegisterEvent.ClearError)
-                }
-            }
+            RegisterRoute(navController)
         }
 
         composable(AuthenticationDestination.LoginScreen.route) {

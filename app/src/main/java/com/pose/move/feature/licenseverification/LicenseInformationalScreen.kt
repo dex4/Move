@@ -28,13 +28,13 @@ import androidx.compose.ui.unit.dp
 import androidx.core.app.ComponentActivity
 import androidx.core.content.FileProvider
 import com.pose.move.BuildConfig.APPLICATION_ID
-import com.pose.move.LocalActivity
 import com.pose.move.R
 import com.pose.move.ui.theme.MoveTheme
 import com.pose.move.ui.widget.PrimaryButton
 import com.pose.move.ui.widget.Toolbar
 import com.pose.move.util.Constants.LicenseVerification.TEMPORARY_LICENSE_PICTURE_FILE_EXTENSION
 import com.pose.move.util.Constants.LicenseVerification.TEMPORARY_LICENSE_PICTURE_FILE_NAME
+import com.pose.move.util.LocalActivity
 import java.io.File
 
 @Composable

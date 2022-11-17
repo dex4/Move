@@ -28,7 +28,7 @@ import com.pose.move.ui.widget.inputfield.TrailIconBehavior
 
 @Composable
 fun RegisterScreen(
-    registerState: RegisterState,
+    registerUiState: RegisterUiState,
     handleEvent: (event: RegisterEvent) -> Unit,
     onLoginClick: () -> Unit
 ) {
@@ -57,30 +57,30 @@ fun RegisterScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
-            value = registerState.email,
+            value = registerUiState.email,
             hint = stringResource(R.string.authentication_email_input_hint),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = Email),
             onValueChanged = { handleEvent(RegisterEvent.EmailChanged(it)) },
             trailIconBehavior = TrailIconBehavior.Action(R.drawable.ic_clear),
-            isTrailIconVisible = registerState.email.isNotEmpty(),
+            isTrailIconVisible = registerUiState.email.isNotEmpty(),
             onTrailIconClick = { handleEvent(RegisterEvent.EmailChanged("")) }
         )
         InputField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp),
-            value = registerState.userName,
+            value = registerUiState.userName,
             hint = stringResource(R.string.authentication_username_input_hint),
             onValueChanged = { handleEvent(RegisterEvent.UserNameChanged(it)) },
             trailIconBehavior = TrailIconBehavior.Action(R.drawable.ic_clear),
-            isTrailIconVisible = registerState.userName.isNotEmpty(),
+            isTrailIconVisible = registerUiState.userName.isNotEmpty(),
             onTrailIconClick = { handleEvent(RegisterEvent.UserNameChanged("")) }
         )
         InputField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp),
-            value = registerState.password,
+            value = registerUiState.password,
             hint = stringResource(R.string.authentication_password_input_hint),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = Password),
             visualTransformation = PasswordVisualTransformation(),
@@ -93,8 +93,8 @@ fun RegisterScreen(
                 .fillMaxWidth()
                 .padding(top = 32.dp),
             text = stringResource(R.string.register_start_button_text),
-            enabled = registerState.isRegisterFormValid(),
-            loading = registerState.isLoading,
+            enabled = registerUiState.isRegisterFormValid(),
+            loading = registerUiState.isLoading,
             onClick = { handleEvent(RegisterEvent.Register) }
         )
         LoginClickableSpan(Modifier.padding(top = 32.dp), onLoginClick)

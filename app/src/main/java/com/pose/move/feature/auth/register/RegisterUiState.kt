@@ -2,7 +2,7 @@ package com.pose.move.feature.auth.register
 
 import com.pose.move.network.ApiResponse
 
-data class RegisterState(
+data class RegisterUiState(
     val email: String = "",
     val userName: String = "",
     val password: String = "",
