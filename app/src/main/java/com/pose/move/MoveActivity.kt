@@ -20,7 +20,6 @@ import com.pose.move.ui.theme.MoveTheme
 import com.pose.move.ui.widget.announcement.Announcement
 import com.pose.move.ui.widget.announcement.AnnouncementData
 import com.pose.move.ui.widget.announcement.handler.AnnouncementHandler.Companion.rememberAnnouncementHandler
-import com.pose.move.util.LocalActivity
 import com.pose.move.util.LocalAnnouncementHandler
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -36,11 +35,7 @@ class MoveActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            CompositionLocalProvider(
-                LocalActivity provides this
-            ) {
-                MoveAppUI(viewModel.startDestination)
-            }
+            MoveAppUI(viewModel.startDestination)
         }
     }
 }

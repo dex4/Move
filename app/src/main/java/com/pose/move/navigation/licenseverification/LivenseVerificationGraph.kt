@@ -21,10 +21,10 @@ fun NavGraphBuilder.addLicenseVerificationGraph(navController: NavController) {
         NavDestination.LicenseVerification.route
     ) {
         composable(LicenseVerificationDestination.LicenseInformationalScreen.route) {
-            val dispatcher = LocalOnBackPressedDispatcherOwner.current
+            val onBackPressedDispatcherOwner = LocalOnBackPressedDispatcherOwner.current
 
             LicenseInformationalScreen(
-                onBackButtonClick = { dispatcher?.onBackPressedDispatcher?.onBackPressed() },
+                onBackButtonClick = { onBackPressedDispatcherOwner?.onBackPressedDispatcher?.onBackPressed() },
                 onGetLicenseImageSuccess = { uri: Uri ->
                     navController.navigate(
                         LicenseVerificationDestination.UploadLicenseScreen.createRoute(uri.toString()),
