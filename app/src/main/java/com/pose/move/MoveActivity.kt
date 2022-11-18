@@ -61,9 +61,10 @@ private fun MoveAppUI(startDestination: String) {
                 hostState = snackbarHostState,
                 snackbar = {
                     val data = requireNotNull(announcementData)
-                    Announcement(announcementData = data) {
-                        snackbarHostState.currentSnackbarData?.dismiss()
-                    }
+                    Announcement(announcementData = data,
+                        onAlertDismiss = { snackbarHostState.currentSnackbarData?.dismiss() },
+                        onActionPerformed = { snackbarHostState.currentSnackbarData?.performAction() }
+                    )
                     //TODO: Add button callback
                 }
             )

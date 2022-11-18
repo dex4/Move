@@ -8,7 +8,7 @@ import com.pose.move.ui.widget.announcement.AnnouncementData
 
 fun interface AnnouncementHandler {
 
-    suspend operator fun invoke(announcementData: AnnouncementData): AnnouncementResult
+    suspend fun announce(announcementData: AnnouncementData): AnnouncementResult
 
     companion object {
 

@@ -46,9 +46,9 @@ class RegisterViewModel @Inject constructor(
     fun handleEvent(event: RegisterEvent) {
         when (event) {
             is RegisterEvent.Register -> register()
-            is RegisterEvent.EmailChanged -> _uiState.value = _uiState.value.copy(email = event.email)
-            is RegisterEvent.UserNameChanged -> _uiState.value = _uiState.value.copy(userName = event.userName)
-            is RegisterEvent.PasswordChanged -> _uiState.value = _uiState.value.copy(password = event.password)
+            is RegisterEvent.EmailChanged -> _uiState.value = _uiState.value.copy(email = event.email, error = null)
+            is RegisterEvent.UserNameChanged -> _uiState.value = _uiState.value.copy(userName = event.userName, error = null)
+            is RegisterEvent.PasswordChanged -> _uiState.value = _uiState.value.copy(password = event.password, error = null)
             is RegisterEvent.ClearError -> _uiState.value = _uiState.value.copy(error = null)
         }
     }

@@ -1,5 +1,6 @@
 package com.pose.move.feature.licenseverification
 
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,17 +16,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale.Companion.Crop
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ComponentActivity
 import androidx.core.content.FileProvider
 import com.pose.move.BuildConfig.APPLICATION_ID
 import com.pose.move.R
@@ -34,7 +35,6 @@ import com.pose.move.ui.widget.PrimaryButton
 import com.pose.move.ui.widget.Toolbar
 import com.pose.move.util.Constants.LicenseVerification.TEMPORARY_LICENSE_PICTURE_FILE_EXTENSION
 import com.pose.move.util.Constants.LicenseVerification.TEMPORARY_LICENSE_PICTURE_FILE_NAME
-import com.pose.move.util.LocalActivity
 import java.io.File
 
 @Composable
@@ -43,7 +43,7 @@ fun LicenseInformationalScreen(
     onGetLicenseImageSuccess: (uri: Uri) -> Unit
 ) {
     var licenseImageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
-    val activity = LocalActivity.current
+    val context = LocalContext.current
     val getGalleryImageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { isSuccessFul ->
         val uri = licenseImageUri
         if (isSuccessFul && uri != null) {
@@ -96,7 +96,7 @@ fun LicenseInformationalScreen(
                     .padding(horizontal = 24.dp, vertical = 32.dp),
                 text = stringResource(R.string.license_verification_button_text),
                 onClick = {
-                    licenseImageUri = createLicensePictureUri(activity)
+                    licenseImageUri = createLicensePictureUri(context)
                     getGalleryImageLauncher.launch(licenseImageUri)
                 }
             )
@@ -104,7 +104,7 @@ fun LicenseInformationalScreen(
     }
 }
 
-private fun createLicensePictureUri(activity: ComponentActivity): Uri {
+private fun createLicensePictureUri(context: Context): Uri {
     val imageFile = File.createTempFile(
         TEMPORARY_LICENSE_PICTURE_FILE_NAME,
         TEMPORARY_LICENSE_PICTURE_FILE_EXTENSION
@@ -114,7 +114,7 @@ private fun createLicensePictureUri(activity: ComponentActivity): Uri {
     }
 
     return FileProvider.getUriForFile(
-        activity.applicationContext,
+        context,
         "${APPLICATION_ID}.provider",
         imageFile
     )

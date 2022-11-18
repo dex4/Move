@@ -37,17 +37,23 @@ fun RegisterRoute(navController: NavController) {
                 NavOptions.Builder().setPopUpTo(NavDestination.Authentication.route, true).build()
             )
         } else if (uiState.error != null) {
-            val result = announcementHandler(
+            val result = announcementHandler.announce(
                 AnnouncementData(
                     (uiState.error as? ApiResponse.Error.ApiException)?.message ?: "",
-                    AnnouncementType.Error
+                    AnnouncementType.Error,
+                    "Retry"
                 )
             )
             when (result) {
-                AnnouncementResult.ActionPerformed -> Log.d("WRKR", "Snackbar action clicked")
-                AnnouncementResult.Dismissed -> Log.d("WRKR", "Snackbar was dismissed")
+                AnnouncementResult.ActionPerformed -> {
+                    Log.d("WRKR", "Snackbar action clicked")
+                    registerViewModel.handleEvent(RegisterEvent.Register)
+                }
+                AnnouncementResult.Dismissed -> {
+                    Log.d("WRKR", "Snackbar was dismissed")
+                    registerViewModel.handleEvent(RegisterEvent.ClearError)
+                }
             }
-            registerViewModel.handleEvent(RegisterEvent.ClearError)
         }
     }
 }
