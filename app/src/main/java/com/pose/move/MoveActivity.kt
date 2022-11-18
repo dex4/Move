@@ -60,7 +60,6 @@ private fun MoveAppUI(startDestination: String) {
                         onAlertDismiss = { snackbarHostState.currentSnackbarData?.dismiss() },
                         onActionPerformed = { snackbarHostState.currentSnackbarData?.performAction() }
                     )
-                    //TODO: Add button callback
                 }
             )
         }
