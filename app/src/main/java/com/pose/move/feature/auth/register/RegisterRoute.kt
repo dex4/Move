@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.pose.move.navigation.NavDestination
 import com.pose.move.navigation.auth.AuthenticationDestination
-import com.pose.move.network.ApiResponse
+import com.pose.move.network.ApiOperationResult
 import com.pose.move.ui.widget.announcement.AnnouncementData
 import com.pose.move.ui.widget.announcement.AnnouncementType
 import com.pose.move.util.LocalAnnouncementHandler
@@ -39,7 +39,7 @@ fun RegisterRoute(navController: NavController) {
         } else if (uiState.error != null) {
             val result = announcementHandler.announce(
                 AnnouncementData(
-                    (uiState.error as? ApiResponse.Error.ApiException)?.message ?: "",
+                    (uiState.error as? ApiOperationResult.Error.ApiError)?.message ?: "",
                     AnnouncementType.Error,
                     "Retry"
                 )
