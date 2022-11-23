@@ -3,7 +3,7 @@ package com.pose.move.feature.auth.register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pose.move.data.preference.InternalStorageManager
-import com.pose.move.network.ApiResponse
+import com.pose.move.network.ApiOperationResult
 import com.pose.move.network.user.UserRemoteDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -32,11 +32,11 @@ class RegisterViewModel @Inject constructor(
             )
 
             when (result) {
-                is ApiResponse.Success -> {
+                is ApiOperationResult.Success -> {
                     internalStorageManager.setAuthToken(result.value.authToken)
                     _uiState.value = _uiState.value.copy(isLoading = false, isUserLoggedIn = true, error = null)
                 }
-                is ApiResponse.Error ->
+                is ApiOperationResult.Error ->
                     _uiState.value =
                         _uiState.value.copy(isLoading = false, isUserLoggedIn = false, error = result)
             }
