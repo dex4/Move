@@ -9,4 +9,6 @@ sealed class RegisterEvent {
     class PasswordChanged(val password: String) : RegisterEvent()
 
     object Register : RegisterEvent()
+
+    object ClearError : RegisterEvent()
 }

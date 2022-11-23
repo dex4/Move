@@ -1,5 +1,6 @@
 package com.pose.move.navigation.auth
 
+import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -14,6 +15,7 @@ import androidx.navigation.navDeepLink
 import com.pose.move.feature.auth.forgotpassword.ForgotPasswordScreen
 import com.pose.move.feature.auth.login.LoginScreen
 import com.pose.move.feature.auth.login.LoginViewModel
+import com.pose.move.feature.auth.register.RegisterEvent
 import com.pose.move.feature.auth.register.RegisterScreen
 import com.pose.move.feature.auth.register.RegisterState
 import com.pose.move.feature.auth.register.RegisterViewModel
@@ -41,6 +43,10 @@ fun NavGraphBuilder.addAuthenticationGraph(navController: NavController) {
                         NavDestination.LicenseVerification.route,
                         NavOptions.Builder().setPopUpTo(NavDestination.Authentication.route, true).build()
                     )
+                } else if (uiState.error != null) {
+                    //TODO: Implement snackbar-like error behavior & handle event on user dismiss
+                    Log.d("WRKR", uiState.error.toString())
+                    registerViewModel.handleEvent(RegisterEvent.ClearError)
                 }
             }
         }

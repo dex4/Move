@@ -21,7 +21,7 @@ class MenuViewModel @Inject constructor(
             if (clearPhoto) {
                 internalStorageManager.setHasUserAddedLicensePhoto(false)
             }
-            internalStorageManager.setIsUserLoggedIn(false)
+            internalStorageManager.setAuthToken("")
         }
     }
 }
