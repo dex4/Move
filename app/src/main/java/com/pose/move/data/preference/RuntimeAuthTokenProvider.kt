@@ -7,7 +7,6 @@ class RuntimeAuthTokenProvider(
     private val internalStorageManager: InternalStorageManager
 ) : AuthTokenProvider {
 
-    override fun getToken(): String = runBlocking {
+    override suspend fun getToken(): String =
         internalStorageManager.authenticationToken.first()
-    }
 }

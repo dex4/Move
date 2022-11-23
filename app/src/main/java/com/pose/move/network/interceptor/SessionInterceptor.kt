@@ -1,6 +1,7 @@
 package com.pose.move.network.interceptor
 
 import com.pose.move.data.preference.AuthTokenProvider
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -11,7 +12,8 @@ class SessionInterceptor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
-        val token = authTokenProvider.getToken()
+        val token = runBlocking { authTokenProvider.getToken() }
+
         if (token.isNotEmpty()) {
             builder.header(AUTHORIZATION_KEY, AUTHORIZATION_BEARER_PREFIX + token)
         }
