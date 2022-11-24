@@ -1,6 +1,7 @@
 package com.pose.move.navigation.licenseverification
 
 import android.net.Uri
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -8,7 +9,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.pose.move.LocalActivity
 import com.pose.move.feature.licenseverification.LicenseVerificationDestination
 import com.pose.move.feature.licenseverification.LicenseInformationalScreen
 import com.pose.move.feature.licenseverification.UploadLicenseScreen
@@ -21,10 +21,10 @@ fun NavGraphBuilder.addLicenseVerificationGraph(navController: NavController) {
         NavDestination.LicenseVerification.route
     ) {
         composable(LicenseVerificationDestination.LicenseInformationalScreen.route) {
-            val activity = LocalActivity.current
+            val onBackPressedDispatcherOwner = LocalOnBackPressedDispatcherOwner.current
 
             LicenseInformationalScreen(
-                onBackButtonClick = { activity.onBackPressedDispatcher.onBackPressed() },
+                onBackButtonClick = { onBackPressedDispatcherOwner?.onBackPressedDispatcher?.onBackPressed() },
                 onGetLicenseImageSuccess = { uri: Uri ->
                     navController.navigate(
                         LicenseVerificationDestination.UploadLicenseScreen.createRoute(uri.toString()),

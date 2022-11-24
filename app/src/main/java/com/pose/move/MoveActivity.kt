@@ -3,15 +3,24 @@ package com.pose.move
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateContentSize
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.pose.move.navigation.MoveMainNavHost
-import com.pose.move.feature.onboarding.OnboardingScreen
 import com.pose.move.feature.splash.SplashViewModel
+import com.pose.move.navigation.MoveMainNavHost
 import com.pose.move.ui.theme.MoveTheme
+import com.pose.move.ui.widget.announcement.Announcement
+import com.pose.move.ui.widget.announcement.AnnouncementData
+import com.pose.move.ui.widget.announcement.handler.AnnouncementHandler.Companion.rememberAnnouncementHandler
+import com.pose.move.util.LocalAnnouncementHandler
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,30 +35,33 @@ class MoveActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            CompositionLocalProvider(
-                LocalActivity provides this
-            ) {
-                MoveAppUI(viewModel.startDestination)
-            }
+            MoveAppUI(viewModel.startDestination)
         }
     }
 }
 
 @Composable
 private fun MoveAppUI(startDestination: String) {
-    MoveTheme {
-        MoveMainNavHost(startDestination)
-    }
-}
+    val snackbarHostState = remember { SnackbarHostState() }
+    var announcementData: AnnouncementData? by remember { mutableStateOf(null) }
+    val handler = rememberAnnouncementHandler(snackbarHostState) { announcementData = it }
 
-val LocalActivity = staticCompositionLocalOf<MoveActivity> {
-    error("No MoveActivity provided")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
     MoveTheme {
-        OnboardingScreen {}
+        CompositionLocalProvider(
+            LocalAnnouncementHandler provides handler
+        ) {
+            MoveMainNavHost(startDestination)
+            SnackbarHost(
+                modifier = Modifier.animateContentSize(),
+                hostState = snackbarHostState,
+                snackbar = {
+                    val data = requireNotNull(announcementData)
+                    Announcement(announcementData = data,
+                        onAlertDismiss = { snackbarHostState.currentSnackbarData?.dismiss() },
+                        onActionPerformed = { snackbarHostState.currentSnackbarData?.performAction() }
+                    )
+                }
+            )
+        }
     }
 }
