@@ -74,4 +74,9 @@
     <string name="license_verification_process_in_progress_continue_button_text">Explore the app</string>
     <string name="license_verification_process_done_continue_button_text">Find scooters</string>
     <!-- endregion -->
+
+    <!-- region Scooters List -->
+    <string name="scooters_list_item_model_label_format">Model %s</string>
+    <string name="scooters_list_item_battery_label_format">%d%%</string>
+    <!-- endregion -->
 </resources>

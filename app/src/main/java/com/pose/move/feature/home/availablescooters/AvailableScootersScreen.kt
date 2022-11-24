@@ -86,12 +86,18 @@ fun AvailableScootersScreen(
 private val itemsList: List<AvailableScootersListItem>
     get() {
         val items = mutableListOf<AvailableScootersListItem>()
-        ('A'..'Z').forEach { letter ->
+        ('A'..'O').forEach { letter ->
             items.add(AvailableScootersListItem.Header(letter))
             items.addAll(
-                (0..9).map { index ->
+                (0..4).map { index ->
                     val id = (letter - 'A') * 10 + index
-                    AvailableScootersListItem.Scooter(id, "$letter #$id")
+                    AvailableScootersListItem.Scooter(
+                        id,
+                        "$letter",
+                        "Str. Alverna, nr. 17",
+                        65,
+                        "#$letter${letter + 1}${if (id < 10) "0$id" else id}"
+                    )
                 }
             )
         }

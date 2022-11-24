@@ -1,5 +1,7 @@
 package com.pose.move.feature.home.availablescooters
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,9 +20,10 @@ fun ScooterItemsList(
     itemsListState: LazyListState
 ) {
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.background(color = MaterialTheme.colorScheme.surface),
         state = itemsListState,
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         items(itemsList) { item ->
             when (item) {
@@ -29,11 +32,7 @@ fun ScooterItemsList(
                     text = item.letter.toString(),
                     style = MaterialTheme.typography.titleSmall,
                 )
-                is AvailableScootersListItem.Scooter -> Text(
-                    modifier = Modifier.height(48.dp),
-                    text = item.name,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+                is AvailableScootersListItem.Scooter -> ScooterListItem(scooterDetails = item)
             }
         }
     }
