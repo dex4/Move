@@ -12,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.pose.move.feature.home.availablescooters.item.AvailableScootersListItem
+import com.pose.move.feature.home.availablescooters.item.scooter.SwipeableScooterItemContainer
 
 @Composable
 fun ScooterItemsList(
@@ -32,7 +34,7 @@ fun ScooterItemsList(
                     text = item.letter.toString(),
                     style = MaterialTheme.typography.titleSmall,
                 )
-                is AvailableScootersListItem.Scooter -> ScooterListItem(scooterDetails = item)
+                is AvailableScootersListItem.Scooter -> SwipeableScooterItemContainer(scooterDetails = item)
             }
         }
     }

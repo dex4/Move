@@ -78,5 +78,6 @@
     <!-- region Scooters List -->
     <string name="scooters_list_item_model_label_format">Model %s</string>
     <string name="scooters_list_item_battery_label_format">%d%%</string>
+    <string name="scooters_list_item_report_issue">Report\nissue</string>
     <!-- endregion -->
 </resources>

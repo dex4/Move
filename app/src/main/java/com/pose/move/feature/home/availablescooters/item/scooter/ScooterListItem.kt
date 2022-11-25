@@ -1,7 +1,14 @@
-package com.pose.move.feature.home.availablescooters
+package com.pose.move.feature.home.availablescooters.item.scooter
 
+import android.annotation.SuppressLint
+import android.util.Log
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,8 +16,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -19,17 +28,99 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.pose.move.R
+import com.pose.move.feature.home.availablescooters.item.AvailableScootersListItem
 import com.pose.move.ui.theme.MoveTheme
+import java.lang.Integer.max
+import java.lang.Integer.min
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.math.abs
+import kotlin.math.roundToInt
+
+@SuppressLint("UnusedTransitionTargetStateParameter")
+@Composable
+fun SwipeableScooterItemContainer(
+    scooterDetails: AvailableScootersListItem.Scooter,
+    modifier: Modifier = Modifier
+) {
+    var isRevealed by remember { mutableStateOf(false) }
+//    val transitionState = remember {
+//        MutableTransitionState(isRevealed).apply { targetState = !isRevealed }
+//    }
+//    val transition = updateTransition(targetState = transitionState, label = "swipeTransition")
+    var offset by remember { mutableStateOf(0) }
+//    val offsetTransition by transition.animateFloat(
+//        label = "offsetTransition",
+//        transitionSpec = { tween(150) },
+//        targetValueByState = { if (!isRevealed) 0f else -(300f + offset) }
+//    )
+//    LaunchedEffect(key1 = isRevealed) {
+//        if (offset in (-249 .. -1)) {
+//            launch {
+//                val endValue = if (isRevealed) -250 else 0
+//                while (offset != endValue) {
+//                    offset = if (isRevealed) {
+//                        max(-250, offset - 10)
+//                    } else {
+//                        min(0, offset + 10)
+//                    }
+//                    delay(10L)
+//                }
+//            }
+//        }
+//    }
+    Box(
+        modifier = modifier
+            .shadow(2.dp, MaterialTheme.shapes.medium)
+            .height(120.dp)
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.medium)
+    ) {
+        ScooterActions({ Log.d("WRKR", "Report for scooter ${scooterDetails.id}") })
+        ScooterListItem(
+            modifier = Modifier
+                .offset { IntOffset(offset, 0) }
+                .pointerInput(Unit) {
+                    detectHorizontalDragGestures(
+                        onDragEnd = {
+                            Log.d("WRKR", offset.toString())
+//                            when (offset) {
+//                                in (-250 .. -125) -> isRevealed = true
+//                                in (-124 .. 0) -> isRevealed = false
+//                            }
+                        }
+                    ) { _, dragAmount ->
+                        when {
+                            dragAmount < 0 -> offset = max(-250, offset + dragAmount.roundToInt())
+                            dragAmount > 0 -> offset = min(0, offset + dragAmount.roundToInt())
+                        }
+//                        when (offset) {
+//                            -250 -> isRevealed = true
+//                            0 -> isRevealed = false
+//                        }
+                    }
+                },
+            scooterDetails = scooterDetails
+        )
+    }
+}
 
 @Composable
 fun ScooterListItem(
@@ -38,9 +129,7 @@ fun ScooterListItem(
 ) {
     Row(
         modifier = modifier
-            .shadow(2.dp, MaterialTheme.shapes.medium)
-            .height(120.dp)
-            .fillMaxWidth()
+            .fillMaxSize()
             .clip(MaterialTheme.shapes.medium)
             .background(color = MaterialTheme.colorScheme.background),
         verticalAlignment = Alignment.CenterVertically
@@ -147,7 +236,7 @@ private fun getBatteryIconForCharge(batteryChargeLeft: Int): Int =
 @Composable
 private fun ScooterListItemPreview() {
     MoveTheme {
-        ScooterListItem(
+        SwipeableScooterItemContainer(
             AvailableScootersListItem.Scooter(
                 0,
                 "A",

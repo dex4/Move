@@ -1,4 +1,4 @@
-package com.pose.move.feature.home.availablescooters
+package com.pose.move.feature.home.availablescooters.item
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.pose.move.feature.home.availablescooters.item.AvailableScootersListItem
 import kotlinx.coroutines.launch
 
 @Composable

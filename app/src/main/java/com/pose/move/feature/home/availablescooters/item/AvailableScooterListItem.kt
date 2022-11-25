@@ -1,4 +1,4 @@
-package com.pose.move.feature.home.availablescooters
+package com.pose.move.feature.home.availablescooters.item
 
 sealed class AvailableScootersListItem(open val id: Int) {
 
