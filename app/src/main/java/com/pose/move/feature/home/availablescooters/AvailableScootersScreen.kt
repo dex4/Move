@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.pose.move.R
 import com.pose.move.feature.home.availablescooters.item.AvailableScootersListItem
 import com.pose.move.feature.home.availablescooters.item.AvailableScootersListItem.Companion.getAlphabeticalIndex
-import com.pose.move.feature.home.availablescooters.item.SectionsHeader
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 

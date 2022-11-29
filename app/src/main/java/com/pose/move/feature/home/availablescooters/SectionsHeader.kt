@@ -1,4 +1,4 @@
-package com.pose.move.feature.home.availablescooters.item
+package com.pose.move.feature.home.availablescooters
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
