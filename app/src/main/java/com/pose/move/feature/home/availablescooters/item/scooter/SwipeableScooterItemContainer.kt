@@ -39,7 +39,7 @@ fun SwipeableScooterItemContainer(
     onReportIssueClick: (scooterId: Int) -> Unit,
     onSwipeComplete: (scooterId: Int, newRevealState: Boolean) -> Unit
 ) {
-    var offset by remember { mutableStateOf(0) }
+    var offset by remember { mutableStateOf(if (scooterDetails.isRevealed) MAX_SWIPE_OFFSET else MIN_SWIPE_OFFSET) }
     var swipeState by remember { mutableStateOf(if (scooterDetails.isRevealed) OPEN else CLOSED) }
 
     Box(
@@ -59,13 +59,15 @@ fun SwipeableScooterItemContainer(
                             when (offset) {
                                 in (MAX_SWIPE_OFFSET..MAX_SWIPE_OFFSET / 2) -> {
                                     swipeState = OPEN
-                                    if (!scooterDetails.isRevealed)
+                                    if (!scooterDetails.isRevealed) {
                                         onSwipeComplete(scooterDetails.id, true)
+                                    }
                                 }
                                 in (MAX_SWIPE_OFFSET / 2 + 1..MIN_SWIPE_OFFSET) -> {
                                     swipeState = CLOSED
-                                    if (scooterDetails.isRevealed)
+                                    if (scooterDetails.isRevealed) {
                                         onSwipeComplete(scooterDetails.id, false)
+                                    }
                                 }
                             }
                         }
@@ -81,12 +83,13 @@ fun SwipeableScooterItemContainer(
         )
     }
 
-    LaunchedEffect(swipeState) {
-        if (swipeState == TRANSITIONING || offset !in (MAX_SWIPE_OFFSET + 1 until MIN_SWIPE_OFFSET)) return@LaunchedEffect
+    LaunchedEffect(scooterDetails, swipeState) {
+        if (swipeState == TRANSITIONING) return@LaunchedEffect
         launch {
-            val endValue = if (swipeState == OPEN) MAX_SWIPE_OFFSET else MIN_SWIPE_OFFSET
+            val currentSwipeState = swipeState == OPEN && scooterDetails.isRevealed
+            val endValue = if (currentSwipeState) MAX_SWIPE_OFFSET else MIN_SWIPE_OFFSET
             while (offset != endValue) {
-                offset = if (swipeState == OPEN) {
+                offset = if (currentSwipeState) {
                     max(MAX_SWIPE_OFFSET, offset - ANIMATED_OFFSET_UPDATE_STEP)
                 } else {
                     min(MIN_SWIPE_OFFSET, offset + ANIMATED_OFFSET_UPDATE_STEP)

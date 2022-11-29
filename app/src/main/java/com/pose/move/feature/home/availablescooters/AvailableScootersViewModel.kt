@@ -20,13 +20,28 @@ class AvailableScootersViewModel @Inject constructor() : ViewModel() {
         get() = _scooters
 
     fun changeRevealState(scooterId: Int, newRevealState: Boolean) {
-        _scooters.update {
-            val scootersList = mutableListOf<AvailableScootersListItem>()
-            scooters.value.toCollection(scootersList)
-            val updatedScooter = (scootersList.first { it.id == scooterId } as AvailableScootersListItem.Scooter).copy(isRevealed = newRevealState)
-            scootersList.removeAt(1)
-            scootersList.add(1, updatedScooter)
-            scootersList.toMutableStateList()
+        _scooters.update { scootersList ->
+            // Allow multiple revealed actions
+//            val scooterIndex = scootersList.indexOfFirst { it.id == scooterId }
+//            val updatedScooter =
+//                (scootersList.getOrNull(scooterIndex) as? AvailableScootersListItem.Scooter)?.copy(isRevealed = newRevealState)
+//                    ?: return@update scootersList
+//            scootersList.removeAt(scooterIndex)
+//            scootersList.add(scooterIndex, updatedScooter)
+//            scootersList
+
+            // Allow single revealed action
+            scootersList.map { scootersListItem ->
+                when (scootersListItem) {
+                    is AvailableScootersListItem.Scooter ->
+                        if (scootersListItem.id == scooterId) {
+                            scootersListItem.copy(isRevealed = newRevealState)
+                        } else {
+                            scootersListItem.copy(isRevealed = false)
+                        }
+                    else -> scootersListItem
+                }
+            }.toMutableStateList()
         }
     }
 
