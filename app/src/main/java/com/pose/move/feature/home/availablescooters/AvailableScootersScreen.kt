@@ -27,7 +27,10 @@ import kotlinx.coroutines.flow.map
 
 @Composable
 fun AvailableScootersScreen(
-    onMenuButtonClick: () -> Unit
+    itemsList: List<AvailableScootersListItem>,
+    onSwipeScooterItem: (scooterId: Int, newRevealState: Boolean) -> Unit,
+    onReportIssue: (scooterId: Int) -> Unit,
+    onMenuButtonClick: () -> Unit,
 ) {
     Column(Modifier.fillMaxSize()) {
         val sectionsListState = rememberLazyListState()
@@ -71,7 +74,9 @@ fun AvailableScootersScreen(
                 .fillMaxWidth()
                 .weight(1f),
             itemsList = itemsList,
-            itemsListState = itemsListState
+            itemsListState = itemsListState,
+            onSwipeScooterItemComplete = onSwipeScooterItem,
+            onReportIssue = onReportIssue
         )
 
         LaunchedEffect(itemsListState) {
@@ -84,24 +89,3 @@ fun AvailableScootersScreen(
         }
     }
 }
-
-private val itemsList: List<AvailableScootersListItem>
-    get() {
-        val items = mutableListOf<AvailableScootersListItem>()
-        ('A'..'O').forEach { letter ->
-            items.add(AvailableScootersListItem.Header(letter))
-            items.addAll(
-                (0..4).map { index ->
-                    val id = (letter - 'A') * 10 + index
-                    AvailableScootersListItem.Scooter(
-                        id,
-                        "$letter",
-                        "Str. Alverna, nr. 17",
-                        65,
-                        "#$letter${letter + 1}${if (id < 10) "0$id" else id}"
-                    )
-                }
-            )
-        }
-        return items
-    }

@@ -19,7 +19,9 @@ import com.pose.move.feature.home.availablescooters.item.scooter.SwipeableScoote
 fun ScooterItemsList(
     modifier: Modifier = Modifier,
     itemsList: List<AvailableScootersListItem>,
-    itemsListState: LazyListState
+    itemsListState: LazyListState,
+    onSwipeScooterItemComplete: (scooterId: Int, newRevealState: Boolean) -> Unit,
+    onReportIssue: (scooterId: Int) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.background(color = MaterialTheme.colorScheme.surface),
@@ -34,7 +36,11 @@ fun ScooterItemsList(
                     text = item.letter.toString(),
                     style = MaterialTheme.typography.titleSmall,
                 )
-                is AvailableScootersListItem.Scooter -> SwipeableScooterItemContainer(scooterDetails = item)
+                is AvailableScootersListItem.Scooter -> SwipeableScooterItemContainer(
+                    scooterDetails = item,
+                    onSwipeComplete = onSwipeScooterItemComplete,
+                    onReportIssueClick = onReportIssue
+                )
             }
         }
     }

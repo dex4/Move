@@ -12,7 +12,8 @@ sealed class AvailableScootersListItem(open val id: Int) {
         val modelName: String,
         val address: String,
         val battery: Int,
-        val pin: String
+        val pin: String,
+        val isRevealed: Boolean = false
     ) : AvailableScootersListItem(id)
 
     companion object {
