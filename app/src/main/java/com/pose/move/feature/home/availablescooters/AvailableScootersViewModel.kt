@@ -52,25 +52,23 @@ class AvailableScootersViewModel @Inject constructor() : ViewModel() {
     }
 
     companion object {
-        private val itemsList: List<AvailableScootersListItem>
-            get() {
-                val items = mutableListOf<AvailableScootersListItem>()
-                ('A'..'O').forEach { letter ->
-                    items.add(AvailableScootersListItem.Header(letter))
-                    items.addAll(
-                        (0..4).map { index ->
-                            val id = (letter - 'A') * 10 + index
-                            AvailableScootersListItem.Scooter(
-                                id,
-                                "$letter",
-                                "Str. Alverna, nr. ${Random.nextInt(1..20)}",
-                                Random.nextInt(0..5) * 20,
-                                "#$letter${letter + 1}${if (id < 10) "0$id" else id}"
-                            )
-                        }
-                    )
-                }
-                return items
+        private val itemsList: List<AvailableScootersListItem> =  mutableListOf<AvailableScootersListItem>().apply {
+            ('A'..'O').forEach { letter ->
+                add(AvailableScootersListItem.Header(letter))
+                addAll(
+                    (0..4).map { index ->
+                        val id = (letter - 'A') * 10 + index
+                        AvailableScootersListItem.Scooter(
+                            id,
+                            "$letter",
+                            "Str. Alverna, nr. ${Random.nextInt(1..20)}",
+                            Random.nextInt(0..5) * 20,
+                            "#$letter${letter + 1}${if (id < 10) "0$id" else id}"
+                        )
+                    }
+                )
             }
+        }
+
     }
 }

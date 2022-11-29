@@ -1,6 +1,5 @@
 package com.pose.move.feature.home.availablescooters.item.scooter
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +30,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
-@SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
 fun SwipeableScooterItemContainer(
     scooterDetails: AvailableScootersListItem.Scooter,
@@ -53,7 +51,7 @@ fun SwipeableScooterItemContainer(
         ScooterListItem(
             modifier = Modifier
                 .offset { IntOffset(offset, 0) }
-                .pointerInput(Unit) {
+                .pointerInput(scooterDetails) {
                     detectHorizontalDragGestures(
                         onDragEnd = {
                             when (offset) {
