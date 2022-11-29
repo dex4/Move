@@ -11,6 +11,8 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 @HiltViewModel
 class AvailableScootersViewModel @Inject constructor() : ViewModel() {
@@ -61,8 +63,8 @@ class AvailableScootersViewModel @Inject constructor() : ViewModel() {
                             AvailableScootersListItem.Scooter(
                                 id,
                                 "$letter",
-                                "Str. Alverna, nr. 17",
-                                65,
+                                "Str. Alverna, nr. ${Random.nextInt(1..20)}",
+                                Random.nextInt(0..5) * 20,
                                 "#$letter${letter + 1}${if (id < 10) "0$id" else id}"
                             )
                         }
