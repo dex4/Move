@@ -2,18 +2,19 @@ package com.pose.move.feature.home.availablescooters
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -21,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import com.pose.move.R
 import com.pose.move.feature.home.availablescooters.item.AvailableScootersListItem
 import com.pose.move.feature.home.availablescooters.item.AvailableScootersListItem.Companion.getAlphabeticalIndex
-import com.pose.move.feature.home.availablescooters.item.SectionsHeader
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @Composable
 fun AvailableScootersScreen(
@@ -32,41 +33,43 @@ fun AvailableScootersScreen(
     onReportIssue: (scooterId: Int) -> Unit,
     onMenuButtonClick: () -> Unit,
 ) {
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         val sectionsListState = rememberLazyListState()
         val itemsListState = rememberLazyListState()
         val headerItems = itemsList.filterIsInstance<AvailableScootersListItem.Header>()
+        val coroutineScope = rememberCoroutineScope()
 
-        Surface(
+        Button(
+            onClick = onMenuButtonClick,
             modifier = Modifier
-                .padding(10.dp)
+                .padding(12.dp)
                 .size(48.dp),
-            shape = CircleShape,
-            shadowElevation = 4.dp
+            elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.primary
+            ),
+            contentPadding = PaddingValues(0.dp),
         ) {
-            IconButton(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.background, CircleShape),
-                onClick = onMenuButtonClick
-            ) {
-                Icon(
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    painter = painterResource(id = R.drawable.ic_menu),
-                    contentDescription = "Account Button"
-                )
-            }
+            Icon(
+                tint = MaterialTheme.colorScheme.primary,
+                painter = painterResource(R.drawable.ic_menu),
+                contentDescription = "Menu button"
+            )
         }
 
         SectionsHeader(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 4.dp),
+                .padding(bottom = 12.dp),
             headerItems = headerItems,
             sectionsListState = sectionsListState
         ) { header ->
-            itemsListState.animateScrollToItem(
-                itemsList.indexOfFirst { it is AvailableScootersListItem.Header && it.letter == header.letter }
-            )
+            coroutineScope.launch {
+                itemsListState.animateScrollToItem(
+                    itemsList.indexOfFirst { it is AvailableScootersListItem.Header && it.letter == header.letter }
+                )
+            }
         }
 
         ScooterItemsList(
