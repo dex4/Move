@@ -22,10 +22,10 @@ fun NavGraphBuilder.addHome(navController: NavController) {
             AvailableScootersScreen(
                 itemsList,
                 onSwipeScooterItem = viewModel::changeRevealState,
-                onReportIssue = viewModel::reportIssue
-            ) {
-                navController.navigate(NavDestination.Profile.route)
-            }
+                onReportIssue = viewModel::reportIssue,
+                onMenuButtonClick = { navController.navigate(NavDestination.Profile.route) },
+                onSearchButtonClick = { navController.navigate(NavDestination.Cities.route) }
+            )
         }
     }
 }
