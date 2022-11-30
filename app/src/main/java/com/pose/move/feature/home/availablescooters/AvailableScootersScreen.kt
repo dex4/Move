@@ -19,13 +19,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.pose.move.R
-import com.pose.move.feature.home.availablescooters.AvailableScootersListItem.Companion.getAlphabeticalIndex
+import com.pose.move.feature.home.availablescooters.item.AvailableScootersListItem
+import com.pose.move.feature.home.availablescooters.item.AvailableScootersListItem.Companion.getAlphabeticalIndex
+import com.pose.move.feature.home.availablescooters.item.SectionsHeader
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 @Composable
 fun AvailableScootersScreen(
-    onMenuButtonClick: () -> Unit
+    itemsList: List<AvailableScootersListItem>,
+    onSwipeScooterItem: (scooterId: Int, newRevealState: Boolean) -> Unit,
+    onReportIssue: (scooterId: Int) -> Unit,
+    onMenuButtonClick: () -> Unit,
 ) {
     Column(Modifier.fillMaxSize()) {
         val sectionsListState = rememberLazyListState()
@@ -69,7 +74,9 @@ fun AvailableScootersScreen(
                 .fillMaxWidth()
                 .weight(1f),
             itemsList = itemsList,
-            itemsListState = itemsListState
+            itemsListState = itemsListState,
+            onSwipeScooterItemComplete = onSwipeScooterItem,
+            onReportIssue = onReportIssue
         )
 
         LaunchedEffect(itemsListState) {
@@ -82,18 +89,3 @@ fun AvailableScootersScreen(
         }
     }
 }
-
-private val itemsList: List<AvailableScootersListItem>
-    get() {
-        val items = mutableListOf<AvailableScootersListItem>()
-        ('A'..'Z').forEach { letter ->
-            items.add(AvailableScootersListItem.Header(letter))
-            items.addAll(
-                (0..9).map { index ->
-                    val id = (letter - 'A') * 10 + index
-                    AvailableScootersListItem.Scooter(id, "$letter #$id")
-                }
-            )
-        }
-        return items
-    }

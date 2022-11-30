@@ -1,5 +1,7 @@
 package com.pose.move.feature.home.availablescooters
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,17 +12,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.pose.move.feature.home.availablescooters.item.AvailableScootersListItem
+import com.pose.move.feature.home.availablescooters.item.scooter.SwipeableScooterItemContainer
 
 @Composable
 fun ScooterItemsList(
     modifier: Modifier = Modifier,
     itemsList: List<AvailableScootersListItem>,
-    itemsListState: LazyListState
+    itemsListState: LazyListState,
+    onSwipeScooterItemComplete: (scooterId: Int, newRevealState: Boolean) -> Unit,
+    onReportIssue: (scooterId: Int) -> Unit
 ) {
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.background(color = MaterialTheme.colorScheme.surface),
         state = itemsListState,
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         items(itemsList) { item ->
             when (item) {
@@ -29,10 +36,10 @@ fun ScooterItemsList(
                     text = item.letter.toString(),
                     style = MaterialTheme.typography.titleSmall,
                 )
-                is AvailableScootersListItem.Scooter -> Text(
-                    modifier = Modifier.height(48.dp),
-                    text = item.name,
-                    style = MaterialTheme.typography.bodyMedium,
+                is AvailableScootersListItem.Scooter -> SwipeableScooterItemContainer(
+                    scooterDetails = item,
+                    onSwipeComplete = onSwipeScooterItemComplete,
+                    onReportIssueClick = onReportIssue
                 )
             }
         }
