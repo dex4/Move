@@ -1,8 +1,10 @@
 package com.pose.move.feature.home.availablescooters
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,30 +34,61 @@ fun AvailableScootersScreen(
     onSwipeScooterItem: (scooterId: Int, newRevealState: Boolean) -> Unit,
     onReportIssue: (scooterId: Int) -> Unit,
     onMenuButtonClick: () -> Unit,
+    onSearchButtonClick: () -> Unit = {}
 ) {
-    Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
         val sectionsListState = rememberLazyListState()
         val itemsListState = rememberLazyListState()
         val headerItems = itemsList.filterIsInstance<AvailableScootersListItem.Header>()
         val coroutineScope = rememberCoroutineScope()
 
-        Button(
-            onClick = onMenuButtonClick,
+        Row(
             modifier = Modifier
-                .padding(12.dp)
-                .size(48.dp),
-            elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.onPrimary,
-                contentColor = MaterialTheme.colorScheme.primary
-            ),
-            contentPadding = PaddingValues(0.dp),
+                .fillMaxWidth()
+                .padding(vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                tint = MaterialTheme.colorScheme.primary,
-                painter = painterResource(R.drawable.ic_menu),
-                contentDescription = "Menu button"
-            )
+            Button(
+                onClick = onMenuButtonClick,
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .size(48.dp),
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.onPrimary,
+                    contentColor = MaterialTheme.colorScheme.primary
+                ),
+                contentPadding = PaddingValues(0.dp),
+            ) {
+                Icon(
+                    tint = MaterialTheme.colorScheme.primary,
+                    painter = painterResource(R.drawable.ic_menu),
+                    contentDescription = "Menu button"
+                )
+            }
+
+            Button(
+                onClick = onSearchButtonClick,
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .size(48.dp),
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.onPrimary,
+                    contentColor = MaterialTheme.colorScheme.primary
+                ),
+                contentPadding = PaddingValues(0.dp),
+            ) {
+                Icon(
+                    tint = MaterialTheme.colorScheme.primary,
+                    painter = painterResource(R.drawable.ic_search),
+                    contentDescription = "Search button"
+                )
+            }
         }
 
         SectionsHeader(

@@ -11,4 +11,6 @@ sealed class NavDestination(val route: String) {
     object Home : NavDestination("home")
 
     object Profile : NavDestination("profile")
+
+    object Cities : NavDestination("cities")
 }
