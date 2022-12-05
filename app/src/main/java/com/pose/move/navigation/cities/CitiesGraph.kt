@@ -10,7 +10,9 @@ import com.pose.move.navigation.NavDestination
 fun NavGraphBuilder.addCities(navController: NavController) {
     navigation(CitiesDestination.SearchScreen.route, NavDestination.Cities.route) {
         composable(CitiesDestination.SearchScreen.route) {
-            SearchScreen()
+            SearchScreen {
+                navController.navigateUp()
+            }
         }
     }
 }

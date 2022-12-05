@@ -18,7 +18,9 @@ private val MoveColorScheme = lightColorScheme(
     onSurfaceVariant = White60,
     surface = Magnolia,
     errorContainer = Red,
-    onErrorContainer = White
+    onErrorContainer = White,
+    outline = SpanishGrey,
+    tertiary = SpanishGrey
 )
 
 @Composable

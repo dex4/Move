@@ -1,5 +1,6 @@
 package com.pose.move.ui.widget.inputfield
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
@@ -10,19 +11,22 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.res.ResourcesCompat.ID_NULL
 import com.pose.move.ui.theme.MoveTheme
+import com.pose.move.ui.widget.ComposableComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,6 +46,24 @@ fun InputField(
     trailIconBehavior: TrailIconBehavior = TrailIconBehavior.None,
     onTrailIconClick: (() -> Unit)? = null,
     onValueChanged: (String) -> Unit,
+    textFieldColors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(
+        unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        focusedBorderColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        cursorColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        errorBorderColor = MaterialTheme.colorScheme.error,
+        errorLabelColor = MaterialTheme.colorScheme.error,
+        selectionColors = TextSelectionColors(
+            MaterialTheme.colorScheme.onPrimary,
+            LocalTextSelectionColors.current.backgroundColor
+        ),
+        focusedTrailingIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        unfocusedTrailingIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        focusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
+    ),
+    @DrawableRes
+    leadingIconRes: Int = ID_NULL
 ) {
     var isPasswordVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -51,18 +73,7 @@ fun InputField(
         onValueChange = onValueChanged,
         textStyle = MaterialTheme.typography.bodyMedium,
         shape = TextFieldDefaults.filledShape,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            focusedBorderColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            cursorColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            textColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            errorBorderColor = MaterialTheme.colorScheme.error,
-            errorLabelColor = MaterialTheme.colorScheme.error,
-            selectionColors = TextSelectionColors(
-                MaterialTheme.colorScheme.onPrimary,
-                LocalTextSelectionColors.current.backgroundColor
-            )
-        ),
+        colors = textFieldColors,
         singleLine = singleLine,
         maxLines = maxLines,
         enabled = enabled,
@@ -84,6 +95,7 @@ fun InputField(
                     if (trailIconBehavior is TrailIconBehavior.PasswordToggle) isPasswordVisible = !isPasswordVisible
                 })
         },
+        leadingIcon = getLeadingIcon(leadingIconRes),
         supportingText = { InputFieldSupportingText(error, supportingText) },
         isError = !error.isNullOrEmpty()
     )
@@ -94,7 +106,6 @@ private fun InputFieldLabel(labelText: String) {
     Text(
         text = labelText,
         style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
         maxLines = 1,
         overflow = Ellipsis
     )
@@ -139,10 +150,17 @@ private fun InputFieldTrailingIcon(
         onClick = { onTrailIconClick?.invoke() },
     ) {
         Icon(
-            tint = MaterialTheme.colorScheme.onPrimaryContainer,
             painter = painterResource(iconRes),
             contentDescription = "Input Trail Icon"
         )
+    }
+}
+
+private fun getLeadingIcon(leadingIconRes: Int): ComposableComponent? {
+    if (leadingIconRes == ID_NULL) return null
+
+    return {
+        Icon(painter = painterResource(leadingIconRes), contentDescription = "Input leading icon ")
     }
 }
 
@@ -150,6 +168,6 @@ private fun InputFieldTrailingIcon(
 @Composable
 fun InputFieldPreview() {
     MoveTheme {
-        InputField(value = "email@tapp.com", hint = "Email") {}
+        InputField(value = "e@mail.com", hint = "Email", onValueChanged = {})
     }
 }
